@@ -1,0 +1,19 @@
+const Footer = ({}): JSX.Element => {
+  return (
+    <div className="container absolute left-1/2 bottom-0 -translate-x-1/2">
+      <div className="w-full h-[100px] flex flex-col justify-center space-y-2">
+        <div className="w-full sm:flex justify-start items-center uppercase space-x-3 text-[10px] text-gray-200 tracking-wider hidden">
+          <span>Support</span>
+          <span>Privacy Notice</span>
+          <span>Terms Of Service</span>
+          <span>Block Tackle</span>
+        </div>
+        <div className="w-full flex justify-center sm:justify-start items-center uppercase space-x-3 text-[8px] text-gray-200 tracking-wider">
+          <span>© 2023 BLOCK TACKLE INC. ALL RIGHTS RESERVED.</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Footer;
