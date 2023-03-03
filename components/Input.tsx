@@ -1,4 +1,9 @@
-import { CSSProperties, ChangeEventHandler, useState } from "react";
+import {
+  CSSProperties,
+  ChangeEventHandler,
+  MouseEventHandler,
+  useState,
+} from "react";
 
 interface IInputProps {
   value: string;
@@ -10,7 +15,10 @@ interface IInputProps {
   title?: string;
   placeholder?: string;
   error?: string;
+  status?: string;
+  icon?: React.ReactNode;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  onIconClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const Input = ({
@@ -23,7 +31,10 @@ const Input = ({
   error,
   wSize = "24",
   hSize = "10",
+  status,
+  icon,
   onChange = () => {},
+  onIconClick = () => {},
 }: IInputProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -42,14 +53,22 @@ const Input = ({
           className={`absolute transition-all ease-linear text-[10px] uppercase tracking-widest select-none -z-10 ${
             value || isEditing
               ? "top-0.5 left-1 text-xs"
-              : "top-3 left-2 text-lg"
+              : "top-3 left-2 text-sm sm:text-lg"
           }`}
         >
           {value || isEditing ? title : value ? "" : placeholder}
         </div>
       )}
       {error !== undefined && (
-        <div className="absolute w-full h-4 text-[10px] text-right px-2 -top-7 left-0 text-red-500 font-bold">
+        <div
+          className={`absolute w-full h-4 text-[10px] text-right px-2 -top-7 left-0 font-bold ${
+            status === "error"
+              ? "text-red-500"
+              : status === "warning"
+              ? "text-yellow-500"
+              : "text-green-500"
+          }`}
+        >
           {error}
         </div>
       )}
@@ -57,9 +76,13 @@ const Input = ({
         className={`absolute w-full h-12 -z-20 ${
           type === "checkbox"
             ? "bg-transparent"
-            : value && error
+            : value && status === "error"
             ? "bg-red-100 border-[1px] border-red-500"
-            : isEditing
+            : value && status === "warning"
+            ? "bg-yellow-100 border-[1px] border-yellow-500"
+            : value && status === "success"
+            ? "bg-green-100 border-[1px] border-green-500"
+            : isEditing && !value
             ? "bg-transparent border-2 border-black"
             : value
             ? "bg-green-100"
@@ -80,6 +103,14 @@ const Input = ({
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
       />
+      {icon && (
+        <div
+          className="absolute top-1/2 -translate-y-1/2 right-3"
+          onClick={onIconClick}
+        >
+          {icon}
+        </div>
+      )}
     </div>
   );
 };

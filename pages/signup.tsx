@@ -1,8 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Link from "next/link";
+import { useCallback, useState } from "react";
+
 import Button from "components/Button";
 import Input from "components/Input";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { dispatchRegister } from "actions";
+import { useRouter } from "next/router";
+import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -15,13 +19,16 @@ export default function SignInPage(props: {
   const [pass, setPass] = useState<string>("");
   const [passConfirm, setPassConfirm] = useState<string>("");
   const [passLevelMsg, setPassLevelMsg] = useState<string>("Too weak");
+  const [passLevelStatus, setPassLevelStatus] = useState<string>("error");
   const [passValidations, setPassValidations] = useState<boolean[]>([
     false,
     false,
     false,
   ]);
-  const [receiveBT, setReceiveBT] = useState<string>("checked");
+  const [receiveBT, setReceiveBT] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
+
+  const navigator = useRouter();
 
   const subTitleArray = [
     "Your email is used to log in",
@@ -59,22 +66,27 @@ export default function SignInPage(props: {
       validations[0] = count > 1;
       switch (count) {
         case 1:
+          setPassLevelStatus("error");
           setPassLevelMsg("Too weak");
           break;
         case 2:
+          setPassLevelStatus("warning");
           setPassLevelMsg("Better");
           break;
         case 3:
+          setPassLevelStatus("success");
           setPassLevelMsg("Strong");
           break;
         case 4:
+          setPassLevelStatus("success");
           setPassLevelMsg("Very String");
           break;
         default:
+          setPassLevelStatus("error");
           setPassLevelMsg("Too weak");
       }
       if (!pass) setPassLevelMsg("");
-      console.log(count, validations);
+
       setPassValidations(validations);
       setPass(e.target.value);
     },
@@ -90,9 +102,34 @@ export default function SignInPage(props: {
     else setReceiveBT("checked");
   };
 
-  const handleNextBtnClicked = () => {
-    setCurrentStep((currentStep) => (currentStep < 3 ? currentStep + 1 : 0));
-  };
+  const handleNextBtnClicked = useCallback(async () => {
+    if (currentStep === 3) {
+      if (pass !== passConfirm) return;
+      if (passValidations.indexOf(false) > -1) return;
+
+      const registerRes = await dispatchRegister(email, tag, birth, true, pass);
+      if (typeof registerRes !== "string") {
+        successAlertBottom(
+          `Successfully registered. Your gamerTag is ${registerRes.gamerTag}`
+        );
+        setEmail("");
+        setBirth("");
+        setTag("");
+        setPass("");
+        setPassConfirm("");
+        setPassLevelMsg("Too weak");
+        setPassLevelStatus("error");
+        setPassValidations([false, false, false]);
+        setCurrentStep(0);
+        // navigator.push("/signin");
+      } else {
+        errorAlertBottom(registerRes);
+        setCurrentStep(0);
+      }
+      return;
+    }
+    setCurrentStep(currentStep + 1);
+  }, [currentStep]);
 
   return (
     <>
@@ -105,6 +142,7 @@ export default function SignInPage(props: {
             <div className="mx-auto w-[92%] h-0.5 flex">
               {new Array(4).fill(0).map((_, idx) => (
                 <div
+                  key={idx}
                   className={`w-1/4 h-full ${
                     currentStep === idx ? "bg-green-400" : "bg-gray-200"
                   }`}
@@ -150,6 +188,7 @@ export default function SignInPage(props: {
                   title={labelArray[currentStep]}
                   type="password"
                   error={passLevelMsg}
+                  status={passLevelStatus}
                   onChange={handlePassInputChange}
                 />
               )}
@@ -207,6 +246,7 @@ export default function SignInPage(props: {
                     placeholder={"Confirm password"}
                     title={"Confirm password"}
                     type="password"
+                    status={pass === passConfirm ? "success" : "error"}
                     onChange={handlePassConfirmInputChange}
                   />
                 </div>
@@ -227,7 +267,9 @@ export default function SignInPage(props: {
               {currentStep === 0 && (
                 <div className="text-sm uppercase text-center mt-4">
                   <Link href="/signin">
-                    <p className="hover:underline">Already have an account?</p>
+                    <p className="hover:underline cursor-pointer select-none">
+                      Already have an account?
+                    </p>
                   </Link>
                 </div>
               )}

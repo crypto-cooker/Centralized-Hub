@@ -4,15 +4,18 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import Layout from "components/Layout";
 import Wallet from "components/wallet/Wallet";
 import "../styles/styles.css";
+import { MainContextProvider } from "contexts";
 
 // eslint-disable-next-line
 function MyApp({ Component, pageProps }) {
   return (
     <Wallet>
       <WalletModalProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <MainContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </MainContextProvider>
         <ToastContainer style={{ fontSize: 15 }} pauseOnFocusLoss={false} />
       </WalletModalProvider>
     </Wallet>

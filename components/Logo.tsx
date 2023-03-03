@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logoImg from "../assets/logo.svg";
+import logoImg from "assets/logo.svg";
 
 const Logo = ({}): JSX.Element => {
   return (
-    <div className="w-full flex text-white h-full items-center text-sp tracking-widest">
+    <div className="w-full flex text-white h-full items-center text-sp tracking-widest select-none">
       <Link href="/">
         <Image className="cursor-pointer" src={logoImg} width={50} />
       </Link>

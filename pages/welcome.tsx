@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-export default function HomePage(props: {
+export default function WelcomePage(props: {
   startLoading: Function;
   closeLoading: Function;
   pageLoading: boolean;
@@ -17,15 +17,9 @@ export default function HomePage(props: {
               <p>here are some things you can do!</p>
             </div>
             <div className="flex-col sm:flex-row space-y-4 sm:space-y-0 items-center flex w-2/3 sm:justify-around mx-auto text-xs tracking-wider font-bold mt-4 sm:mt-10">
-              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none">
-                Staking
-              </div>
-              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none">
-                X-Machine
-              </div>
-              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none">
-                Mini Kickflip
-              </div>
+              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none"></div>
+              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none"></div>
+              <div className="flex items-center justify-center bg-stone-200 w-[100px] h-[100px] cursor-pointer select-none"></div>
             </div>
           </div>
         </div>
