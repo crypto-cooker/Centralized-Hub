@@ -46,7 +46,9 @@ export default function SignInPage(props: {
   }, [name, pass, authToken]);
 
   useEffect(() => {
-    if (authToken) navigator.push("/welcome");
+    if (authToken) {
+      navigator.push("/welcome");
+    }
   }, [authToken]);
 
   return (

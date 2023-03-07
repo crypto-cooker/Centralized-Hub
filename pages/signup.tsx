@@ -129,7 +129,7 @@ export default function SignInPage(props: {
       return;
     }
     setCurrentStep(currentStep + 1);
-  }, [currentStep]);
+  }, [currentStep, pass, email, tag, birth, passConfirm, passValidations]);
 
   return (
     <>

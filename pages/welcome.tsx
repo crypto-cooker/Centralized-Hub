@@ -1,10 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
+import { useMainContext } from "contexts";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 export default function WelcomePage(props: {
   startLoading: Function;
   closeLoading: Function;
   pageLoading: boolean;
 }) {
+  const { authToken } = useMainContext();
+  const navigator = useRouter();
+
+  useEffect(() => {
+    if (!authToken) {
+      navigator.push("/signin");
+    }
+  }, [authToken]);
+
   return (
     <>
       <main>
