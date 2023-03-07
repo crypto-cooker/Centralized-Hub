@@ -104,7 +104,7 @@ export default function SignInPage(props: {
 
   const handleNextBtnClicked = useCallback(async () => {
     if (currentStep === 3) {
-      if (pass !== passConfirm) return;
+      if (!pass || pass !== passConfirm) return;
       if (passValidations.indexOf(false) > -1) return;
 
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
@@ -128,6 +128,9 @@ export default function SignInPage(props: {
       }
       return;
     }
+    if (currentStep === 0 && !email) return;
+    if (currentStep === 1 && !birth) return;
+    if (currentStep === 2 && !tag) return;
     setCurrentStep(currentStep + 1);
   }, [currentStep, pass, email, tag, birth, passConfirm, passValidations]);
 
