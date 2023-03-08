@@ -10,7 +10,7 @@ const Header = ({ path }: IHeaderProps): JSX.Element => {
     <div className="container mx-auto">
       <div className="w-full flex text-white justify-between h-[100px] items-center">
         <Logo />
-        {path === "/" && <Navbar />}
+        {path.indexOf("/sign") === -1 && <Navbar path={path} />}
       </div>
     </div>
   );

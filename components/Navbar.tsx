@@ -2,18 +2,24 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+import { useMainContext } from "contexts";
 import langSrc from "../assets/lang.svg";
 import menuSvg from "../assets/menu.svg";
 import closeSvg from "../assets/close.svg";
 import Button from "./Button";
 
-const Navbar = ({}): JSX.Element => {
+const Navbar = ({ path }: { path: string }): JSX.Element => {
   const router = useRouter();
+  const { authToken, logout } = useMainContext();
 
   const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
 
   const handleSignInClicked = () => {
-    router.push("/signin");
+    if (!authToken) router.push("/signin");
+    else {
+      logout();
+      router.push("/");
+    }
   };
 
   const handleToggleMenuClicked = () => {
@@ -22,13 +28,20 @@ const Navbar = ({}): JSX.Element => {
 
   return (
     <>
-      <div className="w-full lg:flex text-white uppercase justify-end items-center space-x-10 text-xl tracking-widest hidden">
+      <div
+        className={`w-full lg:flex text-white uppercase justify-end items-center space-x-10 text-xl tracking-widest hidden ${
+          path === "/" ? "lg:hidden" : ""
+        }`}
+      >
         <div className="cursor-pointer select-none">Utility</div>
         <div className="cursor-pointer select-none">Games</div>
         <div className="cursor-pointer select-none">Marketplace</div>
         <div className="cursor-pointer select-none">$GRIND</div>
       </div>
-      <div className="lg:hidden" onClick={handleToggleMenuClicked}>
+      <div
+        className={`lg:hidden ${path === "/" ? "hidden" : ""}`}
+        onClick={handleToggleMenuClicked}
+      >
         <Image src={menuSvg} />
       </div>
       {isMenuOpened && (
@@ -47,7 +60,7 @@ const Navbar = ({}): JSX.Element => {
       <div className="ml-4 lg:ml-10 flex space-x-2 sm:space-x-7 select-none">
         <Image className="cursor-pointer" src={langSrc} />
         <Button
-          label="Sign In"
+          label={authToken ? "Sign Out" : "Sign In"}
           className="text-black bg-green-300 font-bold"
           onClick={handleSignInClicked}
         />

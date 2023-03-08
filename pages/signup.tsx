@@ -2,10 +2,9 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { dispatchRegister } from "actions";
 import Button from "components/Button";
 import Input from "components/Input";
-import { dispatchRegister } from "actions";
-import { useRouter } from "next/router";
 import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
 
 export default function SignInPage(props: {
@@ -18,8 +17,8 @@ export default function SignInPage(props: {
   const [tag, setTag] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [passConfirm, setPassConfirm] = useState<string>("");
-  const [passLevelMsg, setPassLevelMsg] = useState<string>("Too weak");
-  const [passLevelStatus, setPassLevelStatus] = useState<string>("error");
+  const [passLevelMsg, setPassLevelMsg] = useState<string>("");
+  const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
   const [passValidations, setPassValidations] = useState<boolean[]>([
     false,
     false,
@@ -27,8 +26,7 @@ export default function SignInPage(props: {
   ]);
   const [receiveBT, setReceiveBT] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
-
-  const navigator = useRouter();
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const subTitleArray = [
     "Your email is used to log in",
@@ -107,7 +105,10 @@ export default function SignInPage(props: {
       if (!pass || pass !== passConfirm) return;
       if (passValidations.indexOf(false) > -1) return;
 
+      setIsProcessing(true);
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
+      setIsProcessing(false);
+
       if (typeof registerRes !== "string") {
         successAlertBottom(
           `Successfully registered. Your gamerTag is ${registerRes.gamerTag}`
@@ -128,9 +129,34 @@ export default function SignInPage(props: {
       }
       return;
     }
-    if (currentStep === 0 && !email) return;
-    if (currentStep === 1 && !birth) return;
+    if (currentStep === 0) {
+      if (!email) return;
+
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      const isValidEmail = emailRegex.test(email);
+
+      if (!isValidEmail) {
+        setPassLevelMsg("Invalid email address");
+        setPassLevelStatus("error");
+        return;
+      }
+    }
+    if (currentStep === 1) {
+      if (!birth) return;
+
+      const dateRegex =
+        /^(0[1-9]|1[012])\s\|\s(0[1-9]|[12][0-9]|3[01])\s\|\s\d{4}$/;
+      const isValidBirth = dateRegex.test(birth);
+
+      if (!isValidBirth) {
+        setPassLevelMsg("Invalid birth. Should be 'mm | dd | yyyy'");
+        setPassLevelStatus("error");
+        return;
+      }
+    }
     if (currentStep === 2 && !tag) return;
+    setPassLevelMsg("");
+    setPassLevelStatus("success");
     setCurrentStep(currentStep + 1);
   }, [currentStep, pass, email, tag, birth, passConfirm, passValidations]);
 
@@ -161,6 +187,8 @@ export default function SignInPage(props: {
                   className="border-0"
                   value={email}
                   placeholder={labelArray[currentStep]}
+                  error={passLevelMsg}
+                  status={passLevelStatus}
                   title={labelArray[currentStep]}
                   onChange={handleEmailInputChange}
                 />
@@ -171,6 +199,8 @@ export default function SignInPage(props: {
                   value={birth}
                   placeholder={labelArray[currentStep]}
                   title={labelArray[currentStep]}
+                  error={passLevelMsg}
+                  status={passLevelStatus}
                   onChange={handleBirthInputChange}
                 />
               )}
@@ -258,6 +288,7 @@ export default function SignInPage(props: {
             <div className="control-box flex flex-col items-center">
               <Button
                 label={currentStep === 3 ? "Let's Go!" : "Next"}
+                isLoading={isProcessing}
                 className={`border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] ${
                   currentStep === 0
                     ? "mt-20"

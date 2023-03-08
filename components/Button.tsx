@@ -1,7 +1,9 @@
 import { CSSProperties, useCallback } from "react";
+import { ClipLoader } from "react-spinners";
 
 interface IButtonProps {
   label: string;
+  isLoading?: boolean;
   className?: string;
   style?: CSSProperties;
   wSize?: number;
@@ -11,6 +13,7 @@ interface IButtonProps {
 
 const Button = ({
   label,
+  isLoading = false,
   className,
   style,
   wSize,
@@ -31,7 +34,7 @@ const Button = ({
       style={style ?? {}}
       onClick={handleClicked}
     >
-      {label}
+      {isLoading ? <ClipLoader size={16} /> : label}
     </div>
   );
 };

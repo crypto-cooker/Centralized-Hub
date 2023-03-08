@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState, useCallback, useEffect } from "react";
 
-import Button from "components/Button";
-import Input from "components/Input";
 import eyeSvg from "assets/eye.svg";
 import eyeNoneSvg from "assets/eye-none.svg";
 import { useMainContext } from "contexts";
-import { useRouter } from "next/router";
+import Button from "components/Button";
+import Input from "components/Input";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -19,6 +19,7 @@ export default function SignInPage(props: {
   const [pass, setPass] = useState<string>("");
   const [passShow, setPassShow] = useState<boolean>(false);
   const [stayIn, setStayIn] = useState<string>("");
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const { authToken, login } = useMainContext();
   const navigator = useRouter();
@@ -42,7 +43,10 @@ export default function SignInPage(props: {
 
   const handleLoginClicked = useCallback(async () => {
     if (!name || !pass) return;
+
+    setIsProcessing(true);
     await login(name, pass);
+    setIsProcessing(false);
   }, [name, pass, authToken]);
 
   useEffect(() => {
@@ -89,6 +93,7 @@ export default function SignInPage(props: {
             <div className="control-box flex flex-col items-center">
               <Button
                 label="Let's Go!"
+                isLoading={isProcessing}
                 className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
                 onClick={handleLoginClicked}
               />
