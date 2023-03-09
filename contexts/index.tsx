@@ -41,7 +41,8 @@ export const MainContextProvider = ({ children }) => {
         setGamerTag(loginRes.gamerTag);
         localStorage.setItem("gamerTag", loginRes.gamerTag);
       } else {
-        errorAlertBottom(loginRes);
+        const alertMsg = loginRes.data.response;
+        errorAlertBottom(alertMsg);
         // errorAlertBottom("Invalid email or password.");
       }
     },
