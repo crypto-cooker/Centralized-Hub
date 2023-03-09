@@ -9,6 +9,7 @@ interface IButtonProps {
   wSize?: number;
   hSize?: number;
   onClick?: Function;
+  icon?: React.ReactNode;
 }
 
 const Button = ({
@@ -19,6 +20,7 @@ const Button = ({
   wSize,
   hSize,
   onClick,
+  icon,
 }: IButtonProps): JSX.Element => {
   const handleClicked = useCallback(() => {
     if (onClick) onClick();
@@ -28,13 +30,14 @@ const Button = ({
     <div
       className={`${wSize ? `w-${wSize}` : "w-[128px]"} ${
         hSize ? `h-${wSize}` : "h-[40px]"
-      } flex justify-center items-center cursor-pointer select-none ${
+      } flex justify-center items-center cursor-pointer select-none space-x-2 ${
         className ?? ""
-      } `}
+      }`}
       style={style ?? {}}
       onClick={handleClicked}
     >
-      {isLoading ? <ClipLoader size={16} /> : label}
+      <div>{isLoading ? <ClipLoader size={16} /> : label}</div>
+      <div>{icon}</div>
     </div>
   );
 };
