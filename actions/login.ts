@@ -11,8 +11,9 @@ export const dispatchLogin = async (identifier: string, password: string) => {
       .then((res) => res.data);
 
     return res?.response;
-  } catch (e) {
-    console.error(e);
-    return JSON.stringify(e?.message ?? e);
+  } catch (res) {
+    console.error(res);
+    // return JSON.stringify(e?.message ?? e);
+    return res?.response;
   }
 };
