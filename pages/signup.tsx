@@ -146,7 +146,7 @@ export default function SignInPage(props: {
       if (isEnableEmail == "OK") {
         console.log("ok");
       } else {
-        errorAlertBottom("Email already exits");
+        errorAlertBottom("Email already exists");
         setPassLevelStatus("error");
         return;
       }
