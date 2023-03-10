@@ -15,11 +15,16 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
   const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
 
   const handleSignInClicked = () => {
-    if (!authToken) router.push("/signin");
-    else {
+    if (!authToken) {
+      console.log("herer>>>>", authToken);
+      router.push("/signin");
       logout();
+    } else {
+      console.log("therere>>>>", authToken);
       router.push("/");
+      logout();
     }
+  
   };
 
   const handleToggleMenuClicked = () => {
