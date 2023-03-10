@@ -18,8 +18,20 @@ export const dispatchRegister = async (
         promotionalOptIn,
       })
       .then((res) => res.data);
-
     return res?.response;
+  } catch (e) {
+    console.error(e);
+    return JSON.stringify(e?.message ?? e);
+  }
+};
+
+
+export const checkEmail = async (email: string) => {
+  try {
+    const res = await axios.post(BACKEND_BASE_URL + "/auth/is-email-available/", {
+      email
+    }).then((res) => res.data);
+    return res?.response
   } catch (e) {
     console.error(e);
     return JSON.stringify(e?.message ?? e);
