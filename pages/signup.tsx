@@ -144,12 +144,11 @@ export default function SignInPage(props: {
     if (currentStep === 1) {
       if (!birth) return;
 
-      const dateRegex =
-        /^(0[1-9]|1[012])\s\|\s(0[1-9]|[12][0-9]|3[01])\s\|\s\d{4}$/;
+      const dateRegex = /^(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
       const isValidBirth = dateRegex.test(birth);
 
       if (!isValidBirth) {
-        setPassLevelMsg("Invalid birth. Should be 'mm | dd | yyyy'");
+        setPassLevelMsg("Invalid birth. Should be 'mm/dd/yyyy'");
         setPassLevelStatus("error");
         return;
       }
