@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
+import axios from "axios";
 import { useCallback, useState } from "react";
+import { BACKEND_BASE_URL } from "config";
 
-import { dispatchRegister } from "actions";
+import { dispatchRegister, checkEmail } from "actions";
 import Button from "components/Button";
 import Input from "components/Input";
 import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
@@ -137,6 +139,14 @@ export default function SignInPage(props: {
 
       if (!isValidEmail) {
         setPassLevelMsg("Invalid email address");
+        setPassLevelStatus("error");
+        return;
+      }
+      const isEnableEmail = await checkEmail(email);
+      if (isEnableEmail == "OK") {
+        console.log("ok");
+      } else {
+        errorAlertBottom("Email already exits");
         setPassLevelStatus("error");
         return;
       }
