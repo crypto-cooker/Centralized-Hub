@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
-import axios from "axios";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { BACKEND_BASE_URL } from "config";
-
 import { dispatchRegister, checkEmail } from "actions";
 import Button from "components/Button";
 import Input from "components/Input";
@@ -24,17 +22,19 @@ export default function SignInPage(props: {
   const [passValidations, setPassValidations] = useState<boolean[]>([
     false,
     false,
-    false,
+    false
   ]);
   const [receiveBT, setReceiveBT] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
+  const navigator = useRouter();
+
   const subTitleArray = [
     "Your email is used to log in",
     "Tell us how old are you",
     "What is your gamertag?",
-    "Keep it to yourself!",
+    "Keep it to yourself!"
   ];
   const labelArray = ["Your Email", "Date of Birth", "GamerTag", "Password"];
 
@@ -82,7 +82,7 @@ export default function SignInPage(props: {
           setPassLevelMsg("Very String");
           break;
         default:
-          setPassLevelStatus("error");
+          setPassLevelStatus(" ");
           setPassLevelMsg("Too weak");
       }
       if (!pass) setPassLevelMsg("");
@@ -110,6 +110,7 @@ export default function SignInPage(props: {
       setIsProcessing(true);
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
       setIsProcessing(false);
+      navigator.push("/signin");
 
       if (typeof registerRes !== "string") {
         successAlertBottom(
@@ -120,11 +121,10 @@ export default function SignInPage(props: {
         setTag("");
         setPass("");
         setPassConfirm("");
-        setPassLevelMsg("Too weak");
-        setPassLevelStatus("error");
+        setPassLevelMsg("");
+        setPassLevelStatus("");
         setPassValidations([false, false, false]);
         setCurrentStep(0);
-        // navigator.push("/signin");
       } else {
         errorAlertBottom(registerRes);
         setCurrentStep(0);
