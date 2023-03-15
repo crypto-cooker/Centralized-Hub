@@ -2,7 +2,7 @@ import {
   CSSProperties,
   ChangeEventHandler,
   MouseEventHandler,
-  useState,
+  useState
 } from "react";
 
 interface IInputProps {
@@ -21,7 +21,7 @@ interface IInputProps {
   onIconClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-const Input = ({
+const DateInput = ({
   value,
   type = "text",
   className,
@@ -32,9 +32,7 @@ const Input = ({
   wSize = "24",
   hSize = "10",
   status,
-  icon,
-  onChange = () => {},
-  onIconClick = () => {},
+  onChange = () => {}
 }: IInputProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -47,7 +45,7 @@ const Input = ({
   };
 
   return (
-    <div className={` relative`}>
+    <div className={`w-${wSize} h-${hSize} relative`}>
       {title && (
         <div
           className={`absolute transition-all ease-linear text-[10px] uppercase tracking-widest select-none -z-10 ${
@@ -103,16 +101,8 @@ const Input = ({
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
       />
-      {icon && (
-        <div
-          className="absolute top-1/2 -translate-y-1/2 right-3"
-          onClick={onIconClick}
-        >
-          {icon}
-        </div>
-      )}
     </div>
   );
 };
 
-export default Input;
+export default DateInput;

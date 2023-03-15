@@ -6,6 +6,7 @@ import { dispatchRegister, checkEmail } from "actions";
 import Button from "components/Button";
 import Input from "components/Input";
 import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
+import DateInput from "../components/DateInput";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -14,6 +15,9 @@ export default function SignInPage(props: {
 }) {
   const [email, setEmail] = useState<string>("");
   const [birth, setBirth] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [day, setDay] = useState<string>("");
+  const [year, setYear] = useState<string>("");
   const [tag, setTag] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [passConfirm, setPassConfirm] = useState<string>("");
@@ -44,6 +48,28 @@ export default function SignInPage(props: {
 
   const handleBirthInputChange = (e) => {
     setBirth(e.target.value);
+  };
+
+  const handleMonthInputChange = useCallback((e) => {
+    const month: string = e.target.value ?? "";
+    let validations = Object.assign(passValidations);
+    const regex = /^(0[1-9]|1[012])/;
+    const isValid = regex.test(month);
+    console.log(isValid);
+    if (!isValid) {
+      setPassLevelMsg("error");
+      setPassLevelStatus("error");
+    }
+
+    setMonth(e.target.value);
+  }, []);
+
+  const handleDayInputChange = (e) => {
+    setDay(e.target.value);
+  };
+
+  const handleYearInputChange = (e) => {
+    setYear(e.target.value);
   };
 
   const handleTagInputChange = (e) => {
@@ -110,7 +136,7 @@ export default function SignInPage(props: {
       setIsProcessing(true);
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
       setIsProcessing(false);
-      navigator.push("/signin");
+      navigator.push("/verify");
 
       if (typeof registerRes !== "string") {
         successAlertBottom(
@@ -152,13 +178,29 @@ export default function SignInPage(props: {
       }
     }
     if (currentStep === 1) {
-      if (!birth) return;
+      if (!month || !day || !year) return;
 
       const dateRegex = /^(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
       const isValidBirth = dateRegex.test(birth);
 
-      if (!isValidBirth) {
-        setPassLevelMsg("Invalid birth. Should be 'mm/dd/yyyy'");
+      const monthRegex = /^(0[1-9]|1[012])/;
+      const dayRegex = /^(0[1-9]|[12][0-9]|3[01])/;
+      const yearRegex = /\d{4}$/;
+
+      const isValidMonth = monthRegex.test(month);
+      const isVaildDay = dayRegex.test(day);
+      const isValidYear = yearRegex.test(year);
+
+      const birthday = month + "/" + day + "/" + year;
+
+      setBirth(birthday);
+      console.log("birthday>>>", birthday);
+      console.log("month>>>", month);
+      console.log("day>>>>", day);
+      console.log("year>>>>", year);
+
+      if (!isValidMonth || !isVaildDay || !isValidYear) {
+        // setPassLevelMsg("Invalid birth. Should be 'mm/dd/yyyy'");
         setPassLevelStatus("error");
         return;
       }
@@ -203,15 +245,49 @@ export default function SignInPage(props: {
                 />
               )}
               {currentStep === 1 && (
-                <Input
-                  className="border-0"
-                  value={birth}
-                  placeholder={labelArray[currentStep]}
-                  title={labelArray[currentStep]}
-                  error={passLevelMsg}
-                  status={passLevelStatus}
-                  onChange={handleBirthInputChange}
-                />
+                <>
+                  {/* <Input
+                    className="border-0 fixed"
+                    value=""
+                    placeholder={labelArray[currentStep]}
+                    error={passLevelMsg}
+                    status={passLevelStatus}
+                    title={labelArray[currentStep]}
+                    onChange={handleEmailInputChange}
+                  /> */}
+                  {/* <p className="w-full h-10 bg-stone-300 text-lg fixed">
+                    DATE OF BIRTH
+                  </p> */}
+                  <div className="flex ">
+                    <DateInput
+                      className="border-r-2"
+                      value={month}
+                      placeholder="MONTH"
+                      title="MONTH"
+                      // error={passLevelMsg}
+                      // status={passLevelStatus}
+                      onChange={handleMonthInputChange}
+                    />
+                    <DateInput
+                      className="border-r-2"
+                      value={day}
+                      placeholder="DAY"
+                      title="DAY"
+                      // error={passLevelMsg}
+                      // status={passLevelStatus}
+                      onChange={handleDayInputChange}
+                    />
+                    <DateInput
+                      className="border-0"
+                      value={year}
+                      placeholder="YEAR"
+                      title="YEAR"
+                      // error={passLevelMsg}
+                      // status={passLevelStatus}
+                      onChange={handleYearInputChange}
+                    />
+                  </div>
+                </>
               )}
               {currentStep === 2 && (
                 <Input

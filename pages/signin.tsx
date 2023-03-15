@@ -9,6 +9,7 @@ import eyeNoneSvg from "assets/eye-none.svg";
 import { useMainContext } from "contexts";
 import Button from "components/Button";
 import Input from "components/Input";
+import Warning from "../public/img/warning.png";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -20,6 +21,8 @@ export default function SignInPage(props: {
   const [passShow, setPassShow] = useState<boolean>(false);
   const [stayIn, setStayIn] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [passLevelMsg, setPassLevelMsg] = useState<string>("");
+  const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
 
   const { authToken, login } = useMainContext();
   const navigator = useRouter();
@@ -42,10 +45,21 @@ export default function SignInPage(props: {
   };
 
   const handleLoginClicked = useCallback(async () => {
-    if (!name || !pass) return;
+    if (!name || !pass) {
+      return;
+    }
+    console.log("here>>>>", passLevelStatus);
 
     setIsProcessing(true);
-    await login(name, pass);
+    const validLogin = await login(name, pass);
+
+    if (!authToken) {
+      setPassLevelStatus("error");
+      setPassLevelMsg(
+        "Your Gamertag or password may be incorrect. Check to make sure caps lock is off. If you can’t sign in, visit the CAN’T SIGN IN link for help."
+      );
+    }
+
     setIsProcessing(false);
   }, [name, pass, authToken]);
 
@@ -67,6 +81,7 @@ export default function SignInPage(props: {
               <Input
                 className="border-0"
                 value={name}
+                status={passLevelStatus}
                 placeholder="GamerTag / Email"
                 title="GamerTag"
                 onChange={handleNameInputChange}
@@ -75,6 +90,7 @@ export default function SignInPage(props: {
                 className="border-0 mt-3"
                 type={passShow ? "text" : "password"}
                 value={pass}
+                status={passLevelStatus}
                 placeholder="Password"
                 title="Password"
                 icon={<Image src={passShow ? eyeNoneSvg : eyeSvg} />}
@@ -82,7 +98,31 @@ export default function SignInPage(props: {
                 onIconClick={handlePassShowIconClicked}
               />
             </div>
-            <div className="text-xs text-black mt-4 flex space-x-2">
+            {passLevelStatus === "error" && (
+              <div className="text-xs text-red-500 mt-4 flex space-x-2">
+                <div className="w-[20%]">
+                  <Image src={Warning} />
+                </div>
+                <p>
+                  Your Gamertag or password may be incorrect. Check to make sure
+                  caps lock is off. If you can’t sign in, visit the{" "}
+                  <Link href="/forgot">
+                    <span className="text-black cursor-pointer">
+                      CAN’T SIGN IN
+                    </span>
+                  </Link>{" "}
+                  link for help.
+                </p>
+              </div>
+            )}
+
+            <div
+              className={`${
+                passLevelStatus === "error"
+                  ? "hidden"
+                  : "text-xs text-black mt-4 flex space-x-2"
+              }`}
+            >
               <Input
                 type="checkbox"
                 value={stayIn}
@@ -90,17 +130,20 @@ export default function SignInPage(props: {
               />
               <p>Stay signed in</p>
             </div>
+
             <div className="control-box flex flex-col items-center">
               <Button
                 label="Let's Go!"
                 isLoading={isProcessing}
-                className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
+                className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16 active:bg-green-500 active:text-black"
                 onClick={handleLoginClicked}
               />
               <div className="text-sm uppercase text-center mt-4">
-                <p className="hover:underline cursor-pointer select-none">
-                  Can't Sign In?
-                </p>
+                <Link href="/forgot">
+                  <p className="hover:underline cursor-pointer select-none">
+                    Can't Sign In?
+                  </p>
+                </Link>
                 <Link href="/signup">
                   <p className="hover:underline cursor-pointer select-none">
                     Create Account
