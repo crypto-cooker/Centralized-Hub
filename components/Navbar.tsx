@@ -16,15 +16,12 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
 
   const handleSignInClicked = () => {
     if (!authToken) {
-      console.log("herer>>>>", authToken);
       router.push("/signin");
       logout();
     } else {
-      console.log("therere>>>>", authToken);
       router.push("/");
       logout();
     }
-  
   };
 
   const handleToggleMenuClicked = () => {
@@ -35,7 +32,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
     <>
       <div
         className={`w-full lg:flex text-white uppercase justify-end items-center space-x-10 text-xl tracking-widest hidden ${
-          path === "/" ? "lg:hidden" : ""
+          path === "/verify" ? "lg:hidden" : ""
         }`}
       >
         <div className="cursor-pointer select-none">Utility</div>
@@ -44,7 +41,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         <div className="cursor-pointer select-none">$GRIND</div>
       </div>
       <div
-        className={`lg:hidden ${path === "/" ? "hidden" : ""}`}
+        className={`lg:hidden ${path === "/verify" ? "hidden" : ""}`}
         onClick={handleToggleMenuClicked}
       >
         <Image src={menuSvg} />

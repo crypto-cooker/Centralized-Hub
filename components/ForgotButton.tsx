@@ -12,7 +12,7 @@ interface IButtonProps {
   icon?: React.ReactNode;
 }
 
-const Button = ({
+const ForgotButton = ({
   label,
   isLoading = false,
   className,
@@ -30,16 +30,16 @@ const Button = ({
     <div
       className={`${wSize ? `w-${wSize}` : "w-[128px]"} ${
         hSize ? `h-${wSize}` : "h-[40px]"
-      } flex justify-center items-center cursor-pointer select-none space-x-2 ${
+      } flex justify-center items-center cursor-pointer select-none space-x-12 ${
         className ?? ""
       }`}
       style={style ?? {}}
       onClick={handleClicked}
     >
-      <div>{isLoading ? <ClipLoader size={16} /> : label}</div>
       <div>{icon}</div>
+      <div>{isLoading ? <ClipLoader size={16} /> : label}</div>
     </div>
   );
 };
 
-export default Button;
+export default ForgotButton;
