@@ -443,8 +443,8 @@ export default function SignInPage(props: {
                   isLoading={isProcessing}
                   className={` ${
                     currentStep === 0 && validation === true
-                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
-                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                      ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-20"
+                      : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
                   }`}
                   onClick={handleNextBtnClicked}
                 />
@@ -455,8 +455,8 @@ export default function SignInPage(props: {
                   isLoading={isProcessing}
                   className={` ${
                     currentStep === 1 && dateValidation
-                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
-                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                      ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-20"
+                      : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
                   }`}
                   onClick={handleNextBtnClicked}
                 />
@@ -467,8 +467,8 @@ export default function SignInPage(props: {
                   isLoading={isProcessing}
                   className={` ${
                     currentStep === 2 && tagValidation === true
-                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
-                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                      ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-20"
+                      : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
                   }`}
                   onClick={handleNextBtnClicked}
                 />
@@ -479,8 +479,8 @@ export default function SignInPage(props: {
                   isLoading={isProcessing}
                   className={` ${
                     currentStep === 3 && pass && pass === passConfirm
-                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-10"
-                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-10"
+                      ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-10"
+                      : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-10"
                   }`}
                   onClick={handleNextBtnClicked}
                 />
