@@ -76,16 +76,15 @@ export default function SignInPage(props: {
 
   const handleTagInputChange = (e) => {
     let _tag = e.target.value;
+    setTag(_tag);
     const tagRegex = /[a-zA-Z0-9]/;
     let validation = tagRegex.test(_tag);
-    console.log(validation);
-    if (tag.length > 4 && validation) {
+    console.log(_tag.length);
+    if (_tag.length > 3 && validation) {
       setTagValidation(true);
     } else {
       setTagValidation(false);
     }
-
-    setTag(_tag);
   };
 
   const handlePassInputChange = useCallback(
