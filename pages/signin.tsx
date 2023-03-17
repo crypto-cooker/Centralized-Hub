@@ -137,8 +137,8 @@ export default function SignInPage(props: {
                 isLoading={isProcessing}
                 className={` ${
                   name && pass
-                    ? "mt-16 text-xl bg-green-500  text-black uppercase tracking-widest"
-                    : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
+                    ? "pl-2 mt-16 text-xl bg-[#5EF388]  text-black uppercase tracking-widest"
+                    : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
                 } `}
                 onClick={handleLoginClicked}
               />

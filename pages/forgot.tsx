@@ -61,7 +61,7 @@ export default function Forgot(props: {
                 </div>
                 <div className="w-full mt-8 space-y-8">
                   <ForgotButton
-                    className="border-2 text-xs p-4 border-black hover:border-green-500 hover:bg-green-500
+                    className="border-2 text-xs p-4 border-black hover:border-green-500 hover:bg-[#5EF388] 
                     "
                     wSize={2}
                     hSize={2}
@@ -70,7 +70,7 @@ export default function Forgot(props: {
                     onClick={handleResetTag}
                   ></ForgotButton>
                   <ForgotButton
-                    className="border-2 text-xs p-4 border-black hover:border-green-500 hover:bg-green-500 "
+                    className="border-2 text-xs p-4 border-black hover:border-green-500 hover:bg-[#5EF388] "
                     wSize={2}
                     hSize={2}
                     label="FORGOT PASSWORD"
@@ -123,8 +123,8 @@ export default function Forgot(props: {
                     isLoading={isProcessing}
                     className={` ${
                       validation === true
-                        ? "text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black"
-                        : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
+                        ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black"
+                        : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
                     }`}
                     onClick={handleRecover}
                   />
@@ -174,8 +174,8 @@ export default function Forgot(props: {
                     isLoading={isProcessing}
                     className={` ${
                       tag
-                        ? "text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black"
-                        : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
+                        ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black"
+                        : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
                     }`}
                     onClick={handleRecover}
                   />
