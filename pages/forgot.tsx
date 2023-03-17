@@ -19,6 +19,7 @@ export default function Forgot(props: {
   const [resetPassword, setResetPassword] = useState<number>(0);
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
   const [validation, setValidation] = useState<boolean>(false);
+  const [move, setMove] = useState<number>(0);
 
   const handleEmailInputChange = (e) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
@@ -44,6 +45,15 @@ export default function Forgot(props: {
     setResetPassword(resetPassword + 1);
   }, [resetPassword]);
   const handleRecover = () => {};
+
+  const handleMoveToPass = () => {
+    setResetTag(0);
+    setResetPassword(1);
+  };
+  const handleMoveToTag = () => {
+    setResetTag(1);
+    setResetPassword(0);
+  };
 
   return (
     <>
@@ -129,9 +139,7 @@ export default function Forgot(props: {
                     onClick={handleRecover}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">
-                    <Link href="/signin">
-                      <p>FORGOT PASSWORD?</p>
-                    </Link>
+                    <p onClick={handleMoveToPass}>FORGOT PASSWORD?</p>
                   </div>
                 </div>
               </>
@@ -180,9 +188,7 @@ export default function Forgot(props: {
                     onClick={handleRecover}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">
-                    <Link href="/signin">
-                      <p>FORGOT PASSWORD?</p>
-                    </Link>
+                    <p onClick={handleMoveToTag}>FORGOT GAMERTAG?</p>
                   </div>
                 </div>
               </>
