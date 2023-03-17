@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { dispatchRegister, checkEmail } from "actions";
 import Button from "components/Button";
 import Input from "components/Input";
 import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
 import DateInput from "../components/DateInput";
+import Warning from "../public/img/warning.png";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -28,6 +30,9 @@ export default function SignInPage(props: {
     false,
     false
   ]);
+  const [validation, setValidation] = useState<boolean>(false);
+  const [dateValidation, setDateValidation] = useState<boolean>(true);
+  const [tagValidation, setTagValidation] = useState<boolean>(false);
   const [receiveBT, setReceiveBT] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -43,6 +48,10 @@ export default function SignInPage(props: {
   const labelArray = ["Your Email", "Date of Birth", "GamerTag", "Password"];
 
   const handleEmailInputChange = (e) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
+    const isValidEmail = emailRegex.test(email);
+    console.log(isValidEmail);
+    setValidation(isValidEmail);
     setEmail(e.target.value);
   };
 
@@ -50,30 +59,33 @@ export default function SignInPage(props: {
     setBirth(e.target.value);
   };
 
-  const handleMonthInputChange = useCallback((e) => {
-    const month: string = e.target.value ?? "";
-    let validations = Object.assign(passValidations);
-    const regex = /^(0[1-9]|1[012])/;
-    const isValid = regex.test(month);
-    console.log(isValid);
-    if (!isValid) {
-      setPassLevelMsg("error");
-      setPassLevelStatus("error");
-    }
-
-    setMonth(e.target.value);
-  }, []);
+  const handleMonthInputChange = (e) => {
+    let _month = e.target.value;
+    setMonth(_month);
+  };
 
   const handleDayInputChange = (e) => {
-    setDay(e.target.value);
+    let _day = e.target.value;
+    setDay(_day);
   };
 
   const handleYearInputChange = (e) => {
-    setYear(e.target.value);
+    let _year = e.target.value;
+    setYear(_year);
   };
 
   const handleTagInputChange = (e) => {
-    setTag(e.target.value);
+    let _tag = e.target.value;
+    const tagRegex = /[a-zA-Z0-9]/;
+    let validation = tagRegex.test(_tag);
+    console.log(validation);
+    if (tag.length > 4 && validation) {
+      setTagValidation(true);
+    } else {
+      setTagValidation(false);
+    }
+
+    setTag(_tag);
   };
 
   const handlePassInputChange = useCallback(
@@ -128,6 +140,49 @@ export default function SignInPage(props: {
     else setReceiveBT("checked");
   };
 
+  const valDate = (month, day, year) => {
+    const date = month + "/" + day + "/" + year;
+    setBirth(date);
+    let dateformat =
+      /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
+    console.log(date);
+
+    // Matching the date through regular expression
+    if (date.match(dateformat)) {
+      let operator = date.split("/");
+
+      // Extract the string into month, date and year
+      let datepart = [];
+      if (operator.length > 1) {
+        datepart = date.split("/");
+      }
+      let month = parseInt(datepart[0]);
+      let day = parseInt(datepart[1]);
+      let year = parseInt(datepart[2]);
+
+      // Create a list of days of a month
+      let ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      if (month == 1 || month > 2) {
+        if (day > ListofDays[month - 1]) {
+          //to check if the date is out of range
+          return false;
+        }
+      } else if (month == 2) {
+        let leapYear = false;
+        if ((!(year % 4) && year % 100) || !(year % 400)) leapYear = true;
+        if (leapYear == false && day >= 29) return false;
+        else if (leapYear == true && day > 29) {
+          console.log("Invalid date format!");
+          return false;
+        }
+      }
+    } else {
+      console.log("Invalid date format!");
+      return false;
+    }
+    return true;
+  };
+
   const handleNextBtnClicked = useCallback(async () => {
     if (currentStep === 3) {
       if (!pass || pass !== passConfirm) return;
@@ -160,7 +215,7 @@ export default function SignInPage(props: {
     if (currentStep === 0) {
       if (!email) return;
 
-      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
       const isValidEmail = emailRegex.test(email);
 
       if (!isValidEmail) {
@@ -176,34 +231,10 @@ export default function SignInPage(props: {
         setPassLevelStatus("error");
         return;
       }
+      setValidation(false);
     }
     if (currentStep === 1) {
-      if (!month || !day || !year) return;
-
-      const dateRegex = /^(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
-      const isValidBirth = dateRegex.test(birth);
-
-      const monthRegex = /^(0[1-9]|1[012])/;
-      const dayRegex = /^(0[1-9]|[12][0-9]|3[01])/;
-      const yearRegex = /\d{4}$/;
-
-      const isValidMonth = monthRegex.test(month);
-      const isVaildDay = dayRegex.test(day);
-      const isValidYear = yearRegex.test(year);
-
-      const birthday = month + "/" + day + "/" + year;
-
-      setBirth(birthday);
-      console.log("birthday>>>", birthday);
-      console.log("month>>>", month);
-      console.log("day>>>>", day);
-      console.log("year>>>>", year);
-
-      if (!isValidMonth || !isVaildDay || !isValidYear) {
-        // setPassLevelMsg("Invalid birth. Should be 'mm/dd/yyyy'");
-        setPassLevelStatus("error");
-        return;
-      }
+      if (!birth) return;
     }
     if (currentStep === 2 && !tag) return;
     setPassLevelMsg("");
@@ -211,6 +242,18 @@ export default function SignInPage(props: {
     setCurrentStep(currentStep + 1);
   }, [currentStep, pass, email, tag, birth, passConfirm, passValidations]);
 
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (valDate(month, day, year)) {
+      setDateValidation(true);
+      console.log("true<<<", dateValidation);
+    } else {
+      setDateValidation(false);
+      console.log("false");
+      console.log("false<<<", dateValidation);
+    }
+  }, [month, day, year]);
   return (
     <>
       <main className="h-[calc(100%-100px)]">
@@ -246,57 +289,80 @@ export default function SignInPage(props: {
               )}
               {currentStep === 1 && (
                 <>
-                  {/* <Input
-                    className="border-0 fixed"
-                    value=""
-                    placeholder={labelArray[currentStep]}
-                    error={passLevelMsg}
-                    status={passLevelStatus}
-                    title={labelArray[currentStep]}
-                    onChange={handleEmailInputChange}
-                  /> */}
-                  {/* <p className="w-full h-10 bg-stone-300 text-lg fixed">
-                    DATE OF BIRTH
-                  </p> */}
-                  <div className="flex ">
-                    <DateInput
-                      className="border-r-2"
-                      value={month}
-                      placeholder="MONTH"
-                      title="MONTH"
-                      // error={passLevelMsg}
-                      // status={passLevelStatus}
+                  {!focused && (
+                    <Input
+                      className="border-2"
+                      value=""
+                      placeholder={labelArray[currentStep]}
+                      title={labelArray[currentStep]}
+                      error={passLevelMsg}
+                      status={passLevelStatus}
                       onChange={handleMonthInputChange}
+                      onClick={() => setFocused(true)}
                     />
-                    <DateInput
-                      className="border-r-2"
-                      value={day}
-                      placeholder="DAY"
-                      title="DAY"
-                      // error={passLevelMsg}
-                      // status={passLevelStatus}
-                      onChange={handleDayInputChange}
-                    />
-                    <DateInput
-                      className="border-0"
-                      value={year}
-                      placeholder="YEAR"
-                      title="YEAR"
-                      // error={passLevelMsg}
-                      // status={passLevelStatus}
-                      onChange={handleYearInputChange}
-                    />
-                  </div>
+                  )}
+                  {focused && (
+                    <>
+                      <div className="flex relative">
+                        <div
+                          className={`absolute w-full h-12 -z-20   ${
+                            dateValidation && birth
+                              ? "bg-stone-100"
+                              : "bg-red-100 border-[1px] border-red-500"
+                          }`}
+                        ></div>
+                        <DateInput
+                          className=""
+                          value={month}
+                          placeholder="MM"
+                          title="MONTH"
+                          onChange={handleMonthInputChange}
+                        />
+                        <DateInput
+                          className="border-x-2"
+                          value={day}
+                          placeholder="DD"
+                          title="DAY"
+                          onChange={handleDayInputChange}
+                        />
+                        <DateInput
+                          className="border-0"
+                          value={year}
+                          placeholder="YYYY"
+                          title="YEAR"
+                          onChange={handleYearInputChange}
+                        />
+                      </div>
+                      {!dateValidation && birth && (
+                        <div className="text-xs text-red-500 mt-4 flex space-x-1">
+                          <div className="w-[10%]">
+                            <Image src={Warning} />
+                          </div>
+                          <p>You must enter a valid birthdate.</p>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
               )}
               {currentStep === 2 && (
-                <Input
-                  className="border-0"
-                  value={tag}
-                  placeholder={labelArray[currentStep]}
-                  title={labelArray[currentStep]}
-                  onChange={handleTagInputChange}
-                />
+                <>
+                  <Input
+                    className="border-0"
+                    value={tag}
+                    placeholder={labelArray[currentStep]}
+                    title={labelArray[currentStep]}
+                    onChange={handleTagInputChange}
+                  />
+                  {tagValidation === false && tag && (
+                    <div className="text-xs text-red-500 mt-4 flex space-x-1">
+                      <div className="w-[10%]">
+                        <Image src={Warning} />
+                      </div>
+                      <p>Only letters and numbers are allowed.</p>
+                    </div>
+                  )}
+                </>
               )}
               {currentStep === 3 && (
                 <Input
@@ -371,18 +437,55 @@ export default function SignInPage(props: {
               </>
             )}
             <div className="control-box flex flex-col items-center">
-              <Button
-                label={currentStep === 3 ? "Let's Go!" : "Next"}
-                isLoading={isProcessing}
-                className={`border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] ${
-                  currentStep === 0
-                    ? "mt-20"
-                    : currentStep === 3
-                    ? "mt-2"
-                    : "mt-32"
-                }`}
-                onClick={handleNextBtnClicked}
-              />
+              {currentStep === 0 && (
+                <Button
+                  label="Next"
+                  isLoading={isProcessing}
+                  className={` ${
+                    currentStep === 0 && validation === true
+                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
+                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                  }`}
+                  onClick={handleNextBtnClicked}
+                />
+              )}
+              {currentStep === 1 && (
+                <Button
+                  label="Next"
+                  isLoading={isProcessing}
+                  className={` ${
+                    currentStep === 1 && dateValidation
+                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
+                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                  }`}
+                  onClick={handleNextBtnClicked}
+                />
+              )}
+              {currentStep === 2 && (
+                <Button
+                  label="Next"
+                  isLoading={isProcessing}
+                  className={` ${
+                    currentStep === 2 && tagValidation === true
+                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-20"
+                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-20"
+                  }`}
+                  onClick={handleNextBtnClicked}
+                />
+              )}
+              {currentStep === 3 && (
+                <Button
+                  label="Let's go"
+                  isLoading={isProcessing}
+                  className={` ${
+                    currentStep === 3 && pass && pass === passConfirm
+                      ? " text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black mt-10"
+                      : " border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-10"
+                  }`}
+                  onClick={handleNextBtnClicked}
+                />
+              )}
+
               {currentStep === 0 && (
                 <div className="text-sm uppercase text-center mt-4">
                   <Link href="/signin">

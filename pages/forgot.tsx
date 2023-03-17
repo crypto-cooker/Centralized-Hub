@@ -18,9 +18,14 @@ export default function Forgot(props: {
   const [resetTag, setResetTag] = useState<number>(0);
   const [resetPassword, setResetPassword] = useState<number>(0);
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
+  const [validation, setValidation] = useState<boolean>(false);
 
   const handleEmailInputChange = (e) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
+    const isValidEmail = emailRegex.test(email);
+    setValidation(isValidEmail);
     setEmail(e.target.value);
+    console.log(isValidEmail);
   };
   const handleTagInputChange = (e) => {
     setTag(e.target.value);
@@ -116,7 +121,11 @@ export default function Forgot(props: {
                   <Button
                     label="SUBMIT"
                     isLoading={isProcessing}
-                    className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] active:bg-green-500 active:text-black"
+                    className={` ${
+                      validation === true
+                        ? "text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black"
+                        : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
+                    }`}
                     onClick={handleRecover}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">
@@ -140,8 +149,8 @@ export default function Forgot(props: {
                   <Input
                     className="border-0"
                     value={tag}
-                    placeholder="YOUR TAG"
-                    title="YOUR TAG"
+                    placeholder="YOUR GAMERTAG OR EMAIL"
+                    title="YOUR GAMERTAG OR EMAIL"
                     onChange={handleTagInputChange}
                   />
                 </div>
@@ -163,7 +172,11 @@ export default function Forgot(props: {
                   <Button
                     label="SUBMIT"
                     isLoading={isProcessing}
-                    className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] active:bg-green-500 active:text-black"
+                    className={` ${
+                      tag
+                        ? "text-xl uppercase tracking-widest w-[144px] bg-green-500 text-black"
+                        : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
+                    }`}
                     onClick={handleRecover}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">

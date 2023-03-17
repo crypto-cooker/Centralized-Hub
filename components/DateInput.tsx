@@ -17,8 +17,10 @@ interface IInputProps {
   error?: string;
   status?: string;
   icon?: React.ReactNode;
+  focused?: void;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onIconClick?: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const DateInput = ({
@@ -32,7 +34,9 @@ const DateInput = ({
   wSize = "24",
   hSize = "10",
   status,
-  onChange = () => {}
+  focused,
+  onChange = () => {},
+  onClick = () => {}
 }: IInputProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -51,13 +55,13 @@ const DateInput = ({
           className={`absolute transition-all ease-linear text-[10px] uppercase tracking-widest select-none -z-10 ${
             value || isEditing
               ? "top-0.5 left-1 text-xs"
-              : "top-3 left-2 text-sm sm:text-lg"
+              : "top-4 left-2 text-xs sm:text-xs"
           }`}
         >
-          {value || isEditing ? title : value ? "" : placeholder}
+          {value || isEditing ? title : value ? placeholder : ""}
         </div>
       )}
-      {error !== undefined && (
+      {/* {error !== undefined && (
         <div
           className={`absolute w-full h-4 text-[10px] text-right px-2 -top-7 left-0 font-bold ${
             status === "error"
@@ -69,37 +73,33 @@ const DateInput = ({
         >
           {error}
         </div>
-      )}
-      <div
+      )} */}
+      {/* <div
         className={`absolute w-full h-12 -z-20 ${
-          type === "checkbox"
-            ? "bg-transparent"
-            : value && status === "error"
-            ? "bg-red-100 border-[1px] border-red-500"
-            : value && status === "warning"
-            ? "bg-yellow-100 border-[1px] border-yellow-500"
-            : value && status === "success"
-            ? "bg-green-100 border-[1px] border-green-500"
-            : isEditing && !value
+          isEditing && !value
             ? "bg-transparent border-2 border-black"
             : value
             ? "bg-green-100"
             : "bg-stone-100"
         }`}
-      ></div>
+      ></div> */}
+
       <input
-        className={`w-full h-12 px-2 flex justify-center items-center cursor-pointer focus:border-0 focus:outline-none text-lg bg-transparent ${
-          title && (value || isEditing) ? "pt-3" : ""
+        className={`w-full h-12 px-2 flex justify-center items-center cursor-pointer focus:border-0 focus:outline-none text-sm focus:text-lg bg-transparent ${
+          title && (value || isEditing) ? "pt-3 text-lg" : ""
         } ${className ?? ""} ${
           type === "checkbox" ? "bg-stone-300 w-4 h-4" : ""
-        }`}
+        } `}
         type={type}
         style={style ?? {}}
         value={value}
         checked={value ? true : false}
         onChange={onChange}
         onFocus={handleInputFocus}
+        autoFocus={title === "MONTH" ? true : false}
+        onClick={onClick}
         onBlur={handleInputBlur}
+        placeholder={isEditing === true ? placeholder : title}
       />
     </div>
   );

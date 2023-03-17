@@ -19,6 +19,7 @@ interface IInputProps {
   icon?: React.ReactNode;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onIconClick?: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const Input = ({
@@ -35,6 +36,7 @@ const Input = ({
   icon,
   onChange = () => {},
   onIconClick = () => {},
+  onClick = () => {}
 }: IInputProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -53,7 +55,7 @@ const Input = ({
           className={`absolute transition-all ease-linear text-[10px] uppercase tracking-widest select-none -z-10 ${
             value || isEditing
               ? "top-0.5 left-1 text-xs"
-              : "top-3 left-2 text-sm sm:text-lg"
+              : "top-4 left-2 text-xs sm:text-xs"
           }`}
         >
           {value || isEditing ? title : value ? "" : placeholder}
@@ -102,6 +104,7 @@ const Input = ({
         onChange={onChange}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        onClick={onClick}
       />
       {icon && (
         <div
