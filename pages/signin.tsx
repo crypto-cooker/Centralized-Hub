@@ -135,7 +135,11 @@ export default function SignInPage(props: {
               <Button
                 label="Let's Go!"
                 isLoading={isProcessing}
-                className="border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16 active:bg-green-500 active:text-black"
+                className={` ${
+                  name && pass
+                    ? "mt-16 text-xl bg-green-500  text-black uppercase tracking-widest"
+                    : "border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
+                } `}
                 onClick={handleLoginClicked}
               />
               <div className="text-sm uppercase text-center mt-4">
