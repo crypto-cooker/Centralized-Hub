@@ -32,7 +32,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
     <>
       <div
         className={`w-full lg:flex text-white uppercase justify-end items-center space-x-10 text-xl tracking-widest hidden ${
-          path === "/verify" ? "lg:hidden" : ""
+          path === "/verify-account" ? "lg:hidden" : ""
         }`}
       >
         <div className="cursor-pointer select-none">Utility</div>
@@ -41,7 +41,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         <div className="cursor-pointer select-none">$GRIND</div>
       </div>
       <div
-        className={`lg:hidden ${path === "/verify" ? "hidden" : ""}`}
+        className={`lg:hidden ${path === "/verify-account" ? "hidden" : ""}`}
         onClick={handleToggleMenuClicked}
       >
         <Image src={menuSvg} />
