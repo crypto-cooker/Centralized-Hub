@@ -190,7 +190,7 @@ export default function SignInPage(props: {
       setIsProcessing(true);
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
       setIsProcessing(false);
-      navigator.push("/verify");
+      navigator.push("/verify-account");
 
       if (typeof registerRes !== "string") {
         successAlertBottom(

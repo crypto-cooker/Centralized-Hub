@@ -6,6 +6,7 @@ import ForgotButton from "../components/ForgotButton";
 import Link from "next/link";
 import Input from "components/Input";
 import Button from "components/Button";
+import { forgotPass } from "../actions/forgot";
 
 export default function Forgot(props: {
   startLoading: Function;
@@ -19,7 +20,6 @@ export default function Forgot(props: {
   const [resetPassword, setResetPassword] = useState<number>(0);
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
   const [validation, setValidation] = useState<boolean>(false);
-  const [move, setMove] = useState<number>(0);
 
   const handleEmailInputChange = (e) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
@@ -44,8 +44,13 @@ export default function Forgot(props: {
     }
     setResetPassword(resetPassword + 1);
   }, [resetPassword]);
-  const handleRecover = () => {};
 
+  const ResetPassword = async () => {
+    const res = await forgotPass(tag);
+    setTag("");
+    console.log(res);
+  };
+  const ResetGamertag = () => {};
   const handleMoveToPass = () => {
     setResetTag(0);
     setResetPassword(1);
@@ -136,7 +141,7 @@ export default function Forgot(props: {
                         ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black"
                         : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
                     }`}
-                    onClick={handleRecover}
+                    onClick={ResetGamertag}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">
                     <p onClick={handleMoveToPass}>FORGOT PASSWORD?</p>
@@ -185,7 +190,7 @@ export default function Forgot(props: {
                         ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black"
                         : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
                     }`}
-                    onClick={handleRecover}
+                    onClick={ResetPassword}
                   />
                   <div className="text-xs cursor-pointer text-center mt-8">
                     <p onClick={handleMoveToTag}>FORGOT GAMERTAG?</p>
