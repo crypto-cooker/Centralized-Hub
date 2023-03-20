@@ -20,22 +20,7 @@ export default function VerifyPage(
   const [getCode, setGetCode] = useState<string>("");
   console.log(routes);
 
-  useEffect(async () => {
-    if (!routes) return;
-
-    const getEmail = routes.query.email;
-    const getVerifyCode = routes.query.verificationCode;
-    setEmail(getEmail?.toString());
-    setGetCode(getVerifyCode?.toString());
-
-    const verifyRes = await verifyEmail(email, getCode);
-    if (verifyRes !== "OK") {
-      setCurrentStatus(1);
-    } else {
-      setCurrentStatus(2);
-    }
-  }, [routes]);
-
+  
   const handleVerifyBtnClicked = useCallback(async () => {
     if (currentStatus === 1) {
       console.log("hereere>>>", currentStatus);
@@ -49,6 +34,22 @@ export default function VerifyPage(
 
     // setCurrentStatus(currentStatus + 1);
   }, [currentStatus]);
+  useEffect(() => {
+    if (!routes) return;
+
+    const getEmail = routes.query.email;
+    const getVerifyCode = routes.query.verificationCode;
+    setEmail(getEmail?.toString());
+    setGetCode(getVerifyCode?.toString());
+    async () => {
+      const verifyRes = await verifyEmail(email, getCode);
+      if (verifyRes !== "OK") {
+        setCurrentStatus(1);
+      } else {
+        setCurrentStatus(2);
+      }
+    };
+  }, [routes]);
   return (
     <>
       <main className="h-[calc(100%-300px)]">
