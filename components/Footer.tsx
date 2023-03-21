@@ -1,10 +1,17 @@
 import Button from "./Button";
 import Image from "next/image";
 import langSrc from "../assets/mini-lang.svg";
+interface IFooterProps {
+  path: string;
+}
 
-const Footer = ({}): JSX.Element => {
+const Footer = ({ path }: IFooterProps): JSX.Element => {
   return (
-    <div className="container absolute left-1/2 bottom-0 -translate-x-1/2">
+    <div
+      className={`container left-1/2 bottom-0 -translate-x-1/2 ${
+        path === "/" ? "relative" : "absolute"
+      }`}
+    >
       <div className="w-full h-[100px] flex flex-col justify-center space-y-2">
         <div className="w-full sm:flex justify-start items-center uppercase space-x-3 text-[10px] text-gray-200 tracking-wider hidden">
           <span>Support</span>
