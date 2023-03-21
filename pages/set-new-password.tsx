@@ -91,11 +91,11 @@ export default function setNewPassword(
   const resetPassword = async () => {
     const resetRes = await resetPass(email, password, passcode);
     setIsProcessing(true);
-    const validLogin = await login(email, password);
+    await login(email, password);
     console.log(resetRes);
     if (typeof resetRes === "string") {
       setPageStatus(0);
-      setCurrentStatus(1);
+      setCurrentStatus(0);
     }
   };
 
@@ -113,10 +113,10 @@ export default function setNewPassword(
             <div className="main-content text-3xl mx-auto sm:bg-white max-w-full w-[820px] sm:h-[460px] h-auto sm:mt-14 text-center p-12 font-semibold">
               {currentStatus === 0 && (
                 <>
-                  <div className=" text-xl tracking-widest font-bold">
+                  <div className=" text-xl  font-bold mt-12">
                     Trouble Signing In?
                   </div>
-                  <div className="text-xl tracking-widest mt-4">
+                  <div className="text-xl mt-4 px-14">
                     Click the button below to rest your password. If you did not
                     request a password rest, you can disregard this message.
                   </div>
@@ -127,10 +127,10 @@ export default function setNewPassword(
               )}
               {currentStatus === 1 && (
                 <>
-                  <div className=" text-xl tracking-widest ">
+                  <div className=" text-xl mt-12">
                     Reset Password Link Expired
                   </div>
-                  <div className="text-xl tracking-widest mt-4">
+                  <div className="text-xl mt-4 px-14">
                     It looks like the password reset link has expired. Click
                     below to resend the link
                   </div>
@@ -139,15 +139,17 @@ export default function setNewPassword(
                 </div> */}
                 </>
               )}
-              <div className="control-box flex flex-col items-center">
-                <Button
-                  label="Reset Password"
-                  isLoading={isProcessing}
-                  className={`border-2 border-black text-stone-400 text-xl uppercase tracking-widest w-[250px] mt-32
+              {currentStatus === 0 && (
+                <div className="control-box flex flex-col items-center">
+                  <Button
+                    label="Reset Password"
+                    isLoading={isProcessing}
+                    className={`border-2 border-black text-black bg-[#D9D9D9] text-xl uppercase tracking-widest w-[250px] mt-14
               `}
-                  onClick={toResetPassword}
-                />
-              </div>
+                    onClick={toResetPassword}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </main>

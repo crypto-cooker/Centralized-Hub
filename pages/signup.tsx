@@ -189,6 +189,9 @@ export default function SignInPage(props: {
 
       setIsProcessing(true);
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
+
+      const get = localStorage.setItem("storeEmail", email);
+      console.log(get, "dfdfdf");
       setIsProcessing(false);
       navigator.push("/verify-account");
 
