@@ -24,8 +24,7 @@ export default function HomePage(props: {
               </div>
               <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                 <p className="p-4 text-4xl uppercase font-normal text-white">
-                  New Mode Design:
-                  <br /> Tile Puzzle
+                  New Mode Design: Tile Puzzle
                 </p>
                 <p className="pl-4 pb-10 text-2xl text-white opacity-60">
                   Inside the studio and how its done
