@@ -22,7 +22,7 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
   }, [authToken]);
 
   return (
-    <div className="relative h-screen bg-[url('/img/signin_bg.jpg')] bg-cover">
+    <div className="relative h-auto bg-[url('/img/signin_bg.jpg')] bg-cover bg-no-repeat">
       <Header path={currentPath} />
       {children}
       <Footer />
