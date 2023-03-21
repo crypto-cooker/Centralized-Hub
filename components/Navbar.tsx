@@ -37,8 +37,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
       >
         <div className="cursor-pointer select-none">Utility</div>
         <div className="cursor-pointer select-none">Games</div>
-        <div className="cursor-pointer select-none">Marketplace</div>
-        <div className="cursor-pointer select-none">$GRIND</div>
+        <div className="cursor-pointer select-none">GRIND</div>
       </div>
       <div
         className={`lg:hidden ${path === "/verify-account" ? "hidden" : ""}`}
