@@ -88,26 +88,27 @@ export default function setNewPassword(
     if (!e.target.checked) setStayIn("");
     else setStayIn("checked");
   };
-  const resetPassword = async () => {
-    const resetRes = await resetPass(email, password, passcode);
-    setIsProcessing(true);
-    await login(email, password);
-    console.log(resetRes);
-    if (typeof resetRes === "string") {
-      setPageStatus(0);
-      setCurrentStatus(0);
-    }
-  };
+    const resetPassword = async () => {
+      setIsProcessing(true);
+      const resetRes = await resetPass(email, password, passcode);
 
-  const toResetPassword = () => {
-    if (pageStatus === 1) {
-      setPageStatus(0);
-    }
-    setPageStatus(pageStatus + 1);
-  };
-  return (
-    <>
-      {pageStatus === 0 && (
+      await login(email, password);
+      console.log(resetRes);
+      if (typeof resetRes === "string") {
+        setPageStatus(0);
+        setCurrentStatus(0);
+      }
+    };
+
+    const toResetPassword = () => {
+      if (pageStatus === 1) {
+        setPageStatus(0);
+      }
+      setPageStatus(pageStatus + 1);
+    };
+    return (
+      <>
+        {/* {pageStatus === 0 && (
         <main className="h-[calc(100%-300px)]">
           <div className="container w-full mx-auto h-full flex justify-center items-center">
             <div className="main-content text-3xl mx-auto sm:bg-white max-w-full w-[820px] sm:h-[460px] h-auto sm:mt-14 text-center p-12 font-semibold">
@@ -120,9 +121,6 @@ export default function setNewPassword(
                     Click the button below to rest your password. If you did not
                     request a password rest, you can disregard this message.
                   </div>
-                  {/* <div className="text-xl tracking-widest">
-                  Click on the link in the email to complete your registeration
-                </div> */}
                 </>
               )}
               {currentStatus === 1 && (
@@ -134,9 +132,6 @@ export default function setNewPassword(
                     It looks like the password reset link has expired. Click
                     below to resend the link
                   </div>
-                  {/* <div className="text-xl tracking-widest">
-                  Click on the link in the email to complete your registeration
-                </div> */}
                 </>
               )}
               {currentStatus === 0 && (
@@ -153,37 +148,37 @@ export default function setNewPassword(
             </div>
           </div>
         </main>
-      )}
-      {pageStatus === 1 && (
-        <main className="h-[calc(100%-100px)]">
-          <div className="container w-full h-full mx-auto flex justify-center items-center">
-            <div className="main-content text-3xl sm:bg-white max-w-full w-[380px] sm:h-[460px] h-auto p-12 font-semibold -translate-y-[50px]">
-              <div className="text-2xl tracking-wider uppercase text-center">
-                Reset Password
-              </div>
-              <div className="w-full mt-8">
-                <Input
-                  className="border-0"
-                  type="password"
-                  value={password}
-                  status={passLevelStatus}
-                  placeholder="New Password"
-                  title="New Password"
-                  onChange={handlePassInputChange}
-                />
-                <Input
-                  className="border-0 mt-3"
-                  type="password"
-                  value={passConfirm}
-                  status={passLevelStatus}
-                  placeholder="Confirm Password"
-                  title="Confirm Password"
-                  icon=""
-                  onChange={handlePassConfirmInputChange}
-                  // onIconClick={}
-                />
-              </div>
-              {/* {passLevelStatus === "error" && (
+      )} */}
+        {pageStatus === 0 && (
+          <main className="h-[calc(100%-100px)]">
+            <div className="container w-full h-full mx-auto flex justify-center items-center">
+              <div className="main-content text-3xl sm:bg-white max-w-full w-[380px] sm:h-[460px] h-auto p-12 font-semibold -translate-y-[50px]">
+                <div className="text-2xl tracking-wider uppercase text-center">
+                  Reset Password
+                </div>
+                <div className="w-full mt-8">
+                  <Input
+                    className="border-0"
+                    type="password"
+                    value={password}
+                    status={passLevelStatus}
+                    placeholder="New Password"
+                    title="New Password"
+                    onChange={handlePassInputChange}
+                  />
+                  <Input
+                    className="border-0 mt-3"
+                    type="password"
+                    value={passConfirm}
+                    status={passLevelStatus}
+                    placeholder="Confirm Password"
+                    title="Confirm Password"
+                    icon=""
+                    onChange={handlePassConfirmInputChange}
+                    // onIconClick={}
+                  />
+                </div>
+                {/* {passLevelStatus === "error" && (
               <div className="text-xs text-red-500 mt-4 flex space-x-2">
                 <div className="w-[20%]">
                   <Image src={Warning} />
@@ -201,33 +196,33 @@ export default function setNewPassword(
               </div>
             )} */}
 
-              <div
-                className={`${
-                  passLevelStatus === "error"
-                    ? "hidden"
-                    : "text-xs text-black mt-4 flex space-x-2"
-                }`}
-              >
-                <Input
-                  type="checkbox"
-                  value={stayIn}
-                  onChange={handleCheckBoxChange}
-                />
-                <p>Stay signed in</p>
-              </div>
+                <div
+                  className={`${
+                    passLevelStatus === "error"
+                      ? "hidden"
+                      : "text-xs text-black mt-4 flex space-x-2"
+                  }`}
+                >
+                  <Input
+                    type="checkbox"
+                    value={stayIn}
+                    onChange={handleCheckBoxChange}
+                  />
+                  <p>Stay signed in</p>
+                </div>
 
-              <div className="control-box flex flex-col items-center">
-                <Button
-                  label="Let's Go!"
-                  isLoading={isProcessing}
-                  className={` ${
-                    password && password === passConfirm
-                      ? "pl-2 mt-16 text-xl bg-[#5EF388]  text-black uppercase tracking-widest"
-                      : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
-                  } `}
-                  onClick={resetPassword}
-                />
-                {/* <div className="text-sm uppercase text-center mt-4">
+                <div className="control-box flex flex-col items-center">
+                  <Button
+                    label="Let's Go!"
+                    isLoading={isProcessing}
+                    className={` ${
+                      password && password === passConfirm
+                        ? "pl-2 mt-16 text-xl bg-[#5EF388]  text-black uppercase tracking-widest"
+                        : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-16"
+                    } `}
+                    onClick={resetPassword}
+                  />
+                  {/* <div className="text-sm uppercase text-center mt-4">
                 <Link href="/forgot">
                   <p className="hover:underline cursor-pointer select-none">
                     Can't Sign In?
@@ -239,11 +234,11 @@ export default function setNewPassword(
                   </p>
                 </Link>
               </div> */}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
-      )}
-    </>
-  );
+          </main>
+        )}
+      </>
+    );
 }
