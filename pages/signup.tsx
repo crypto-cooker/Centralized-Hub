@@ -50,7 +50,6 @@ export default function SignInPage(props: {
   const handleEmailInputChange = (e) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
     const isValidEmail = emailRegex.test(email);
-    console.log(isValidEmail);
     setValidation(isValidEmail);
     setEmail(e.target.value);
   };
@@ -79,7 +78,6 @@ export default function SignInPage(props: {
     setTag(_tag);
     const tagRegex = /[a-zA-Z0-9]/;
     let validation = tagRegex.test(_tag);
-    console.log(_tag.length);
     if (_tag.length > 3 && validation) {
       setTagValidation(true);
     } else {
@@ -144,7 +142,6 @@ export default function SignInPage(props: {
     setBirth(date);
     let dateformat =
       /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
-    console.log(date);
 
     // Matching the date through regular expression
     if (date.match(dateformat)) {
@@ -191,7 +188,7 @@ export default function SignInPage(props: {
       const registerRes = await dispatchRegister(email, tag, birth, true, pass);
 
       const get = localStorage.setItem("storeEmail", email);
-      console.log(get, "dfdfdf");
+
       setIsProcessing(false);
       navigator.push("/verify-account");
 
@@ -249,11 +246,8 @@ export default function SignInPage(props: {
   useEffect(() => {
     if (valDate(month, day, year)) {
       setDateValidation(true);
-      console.log("true<<<", dateValidation);
     } else {
       setDateValidation(false);
-      console.log("false");
-      console.log("false<<<", dateValidation);
     }
   }, [month, day, year]);
   return (
