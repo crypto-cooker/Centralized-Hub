@@ -73,11 +73,11 @@ export default function HomePage(props: {
               </div>
             </div>
           </div>
-          <div className="main-content text-3xl mx-auto mb-10 max-sm:max-w-full w-[1020px]  h-auto sm:mt-14   font-semibold">
+          <div className="main-content text-3xl mx-auto mb-10 max-sm:max-w-full lg:w-[1020px]  h-auto sm:mt-14   font-semibold">
             <div className="uppercase text-5xl tracking-widest text-white">
               Featured Apps
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-2 max-sm:grid-cols-1 max-sm:w-full">
+            <div className="grid grid-cols-3 gap-4 mt-2 max-lg:grid-cols-1 max-lg:w-full">
               {/* <div className="flex-col justify-items-center sm:flex-row space-y-4 sm:space-y-0 items-center flex w-2/3 sm:justify-around  text-xs tracking-wider font-bold mt-24 sm:mt-40"> */}
               <div>
                 <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10 border-2 border-white">
