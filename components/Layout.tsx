@@ -14,7 +14,6 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
   const { authToken, logout } = useMainContext();
   const router = useRouter();
   const currentPath = router.pathname;
-  console.log(currentPath);
 
   useEffect(() => {
     if (authToken) {
@@ -25,7 +24,11 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
   return (
     <div
       className={`relative bg-[url('/img/signin_bg.jpg')] bg-cover bg-no-repeat ${
-        currentPath === "/" ? "h-auto" : "h-screen"
+        currentPath === "/"
+          ? "h-auto"
+          : currentPath === "/welcome"
+          ? "h-auto"
+          : "h-screen"
       }`}
     >
       <Header path={currentPath} />

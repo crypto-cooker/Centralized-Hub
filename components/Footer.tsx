@@ -9,7 +9,11 @@ const Footer = ({ path }: IFooterProps): JSX.Element => {
   return (
     <div
       className={`container left-1/2 bottom-0 -translate-x-1/2 ${
-        path === "/" ? "relative" : "absolute"
+        path === "/"
+          ? "relative"
+          : path === "/welcome"
+          ? "relative"
+          : "absolute"
       }`}
     >
       <div className="w-full h-[100px] flex flex-col justify-center space-y-2">

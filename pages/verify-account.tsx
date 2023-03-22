@@ -19,11 +19,14 @@ export default function VerifyPage(
   const [storeEmail, setStoreEmail] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [getCode, setGetCode] = useState<string>("");
-  console.log(routes);
+  const [verify, setVerify] = useState<string>("");
 
   const handleVerifyBtnClicked = useCallback(async () => {
     if (currentStatus === 1) {
       console.log("hereere>>>", currentStatus);
+      setVerify("verfied");
+      localStorage.setItem("verified", verify);
+      console.log(verify);
       routes.push("/signin");
       setCurrentStatus(0);
       return;
@@ -38,24 +41,26 @@ export default function VerifyPage(
 
   useEffect(() => {
     if (!routes) return;
-
-    const getEmail = routes.query.email;
-    const getVerifyCode = routes.query.verificationCode;
-    setEmail(getEmail?.toString());
-    setGetCode(getVerifyCode?.toString());
-    console.log(getEmail, getVerifyCode);
-    (async () => {
-      console.log("here");
-      const verifyRes = await verifyEmail(email, getCode);
-      if (verifyRes !== "OK") {
-        setCurrentStatus(1);
-      } else {
-        setCurrentStatus(2);
-      }
-    })();
     const setemail = localStorage.getItem("storeEmail");
     setStoreEmail(setemail);
-  }, [routes]);
+    console.log(routes);
+    if (routes.asPath !== "/verify-account") {
+      const path = routes.asPath.split("=");
+      const verifycode = path[1].split("&");
+      const email = path[2];
+      const code = verifycode[0];
+      console.log(email, code);
+      (async () => {
+        const verifyRes = await verifyEmail(email, code);
+        console.log(verifyRes);
+        if (verifyRes === "OK") {
+          setCurrentStatus(1);
+        } else {
+          setCurrentStatus(2);
+        }
+      })();
+    }
+  }, [routes.asPath !== "/verify-account"]);
   return (
     <>
       <main className="h-[calc(100%-300px)]">
@@ -77,7 +82,7 @@ export default function VerifyPage(
             )}
             {currentStatus === 1 && (
               <>
-                <div className="text-xl mt-12">
+                <div className="text-xl font-bold mt-12">
                   Your email has been verified
                 </div>
                 <div className="text-xl  mt-4">
@@ -87,10 +92,10 @@ export default function VerifyPage(
             )}
             {currentStatus === 2 && (
               <>
-                <div className=" text-xl tracking-widest mt-12">
+                <div className=" text-xl font-bold mt-12">
                   Email Verification Link Expired
                 </div>
-                <div className="text-xl tracking-widest mt-4">
+                <div className="text-xl px-16 mt-4">
                   It looks like the verification link has expired. Click below
                   to resend the link
                 </div>

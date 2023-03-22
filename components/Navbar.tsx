@@ -7,12 +7,15 @@ import langSrc from "../assets/lang.svg";
 import menuSvg from "../assets/menu.svg";
 import closeSvg from "../assets/close.svg";
 import Button from "./Button";
+import dropdown1 from "../assets/dropdown1.svg";
+import dropdown from "../assets/dropdown.svg";
 
 const Navbar = ({ path }: { path: string }): JSX.Element => {
   const router = useRouter();
-  const { authToken, logout } = useMainContext();
+  const { authToken, gamerTag, logout } = useMainContext();
 
   const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
+  const [isDropdownOpened, setIsDropdownOpened] = useState<boolean>(false);
 
   const handleSignInClicked = () => {
     if (!authToken) {
@@ -21,6 +24,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
     } else {
       router.push("/");
       logout();
+      // setIsDropdownOpened(!isDropdownOpened);
     }
   };
 
@@ -31,12 +35,16 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
   return (
     <>
       <div
-        className={`w-full lg:flex text-white uppercase justify-end items-center space-x-10 text-xl tracking-widest hidden ${
+        className={`w-full lg:flex text-white uppercase justify-start items-center space-x-10 text-xl tracking-widest hidden ${
           path === "/verify-account" ? "lg:hidden" : ""
         }`}
       >
-        <div className="cursor-pointer select-none">Utility</div>
-        <div className="cursor-pointer select-none">Games</div>
+        <div className="cursor-pointer select-none">
+          Utility <Image src={dropdown} />
+        </div>
+        <div className="cursor-pointer select-none">
+          Games <Image src={dropdown} />
+        </div>
         <div className="cursor-pointer select-none">GRIND</div>
       </div>
       <div
@@ -53,19 +61,38 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
             </div>
             <div>Utility</div>
             <div>Games</div>
-            <div>Marketplace</div>
+
             <div>$GRIND</div>
           </div>
         </div>
       )}
-      <div className="ml-4 lg:ml-10 flex space-x-2 sm:space-x-7 select-none">
+      <div
+        className={`ml-4 lg:ml-10 flex space-x-2 sm:space-x-7 select-none ${
+          gamerTag ? "sm:space-x-0" : ""
+        }`}
+      >
         <Image className="cursor-pointer" src={langSrc} />
         <Button
-          label={authToken ? "Sign Out" : "Sign In"}
-          className="text-black bg-green-300 font-bold"
+          label={authToken ? gamerTag : "Sign In"}
+          className={`text-black bg-green-300 font-bold uppercase ${
+            gamerTag ? "bg-transparent text-white" : ""
+          }`}
           onClick={handleSignInClicked}
+          icon={authToken ? <Image src={dropdown1} /> : ""}
         />
       </div>
+      {isDropdownOpened && (
+        <div className="min-w-[300px] flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5">
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+          <li>asdfasdfasd</li>
+        </div>
+      )}
     </>
   );
 };
