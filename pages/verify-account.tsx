@@ -19,14 +19,11 @@ export default function VerifyPage(
   const [storeEmail, setStoreEmail] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [getCode, setGetCode] = useState<string>("");
-  const [verify, setVerify] = useState<string>("");
 
   const handleVerifyBtnClicked = useCallback(async () => {
     if (currentStatus === 1) {
       console.log("hereere>>>", currentStatus);
-      setVerify("verfied");
-      localStorage.setItem("verified", verify);
-      console.log(verify);
+
       routes.push("/signin");
       setCurrentStatus(0);
       return;

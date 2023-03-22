@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
 import User from "../assets/user.svg";
 import Password from "../assets/password.svg";
 import ForgotButton from "../components/ForgotButton";
@@ -46,7 +47,10 @@ export default function Forgot(props: {
   }, [resetPassword]);
 
   const ResetPassword = async () => {
+    setIsProcessing(true);
+
     const res = await forgotPass(tag);
+    successAlertBottom("Your password reset link was sent to your email");
     setTag("");
     console.log(res);
   };
