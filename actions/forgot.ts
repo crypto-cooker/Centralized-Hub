@@ -25,3 +25,13 @@ export const resetPass = async (email: string, password: string, passwordCode: s
         return JSON.stringify(e?.message ?? e)
     }
 }
+
+export const reminderTag = async (email: string) => {
+    try {
+        const res = await axios.post(BACKEND_BASE_URL + "/auth/gamertag-reminder", { email }).then((res) => res.data)
+        return res?.response
+    } catch (e) {
+        console.error(e)
+        return JSON.stringify(e?.message ?? e);
+    }
+}

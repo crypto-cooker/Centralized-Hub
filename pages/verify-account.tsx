@@ -2,7 +2,8 @@ import { useMainContext } from "../contexts/index";
 import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import Button from "components/Button";
-import { verifyEmail } from "actions/verify";
+import { resendVerify, verifyEmail } from "actions/verify";
+import { successAlertBottom } from "components/ToastGroup";
 
 export default function VerifyPage(
   props: {
@@ -22,6 +23,7 @@ export default function VerifyPage(
 
   const handleVerifyBtnClicked = useCallback(async () => {
     if (currentStatus === 1) {
+      setIsProcessing(true);
       console.log("hereere>>>", currentStatus);
 
       routes.push("/signin");
@@ -30,16 +32,30 @@ export default function VerifyPage(
     }
 
     if (currentStatus === 0) {
+      setIsProcessing(true);
       console.log("hereere>>>", currentStatus);
+      const res = await resendVerify(email);
+      successAlertBottom("Your GamerTag was sent to your email");
+      setIsProcessing(false);
+      console.log(res);
+    }
+    if (currentStatus === 2) {
+      setIsProcessing(true);
+      const res = await resendVerify(email);
+      successAlertBottom("Your GamerTag was sent to your email");
+      setIsProcessing(false);
+      console.log(res);
     }
 
     // setCurrentStatus(currentStatus + 1);
+    setIsProcessing(false);
   }, [currentStatus]);
 
   useEffect(() => {
     if (!routes) return;
     const setemail = localStorage.getItem("storeEmail");
     setStoreEmail(setemail);
+    setEmail(setemail);
     console.log(routes);
     if (routes.asPath !== "/verify-account") {
       const path = routes.asPath.split("=");
@@ -110,7 +126,7 @@ export default function VerifyPage(
                     : ""
                 }
                 isLoading={isProcessing}
-                className={`border-2 border-black text-black text-xl bg-[#D9D9D9]  w-[250px] mt-16
+                className={`border-2 border-black text-black text-xl bg-[#D9D9D9]  w-[250px] mt-16 hover:bg-[#5EF388]
               `}
                 onClick={handleVerifyBtnClicked}
               />

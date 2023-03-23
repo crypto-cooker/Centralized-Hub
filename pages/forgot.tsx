@@ -7,7 +7,7 @@ import ForgotButton from "../components/ForgotButton";
 import Link from "next/link";
 import Input from "components/Input";
 import Button from "components/Button";
-import { forgotPass } from "../actions/forgot";
+import { forgotPass, reminderTag } from "../actions/forgot";
 
 export default function Forgot(props: {
   startLoading: Function;
@@ -53,8 +53,16 @@ export default function Forgot(props: {
     successAlertBottom("Your password reset link was sent to your email");
     setTag("");
     console.log(res);
+    setIsProcessing(false);
   };
-  const ResetGamertag = () => {};
+  const ResetGamertag = async () => {
+    setIsProcessing(true);
+    const res = await reminderTag(email);
+    successAlertBottom("Your GamerTag was sent to your email");
+    setEmail("");
+    setIsProcessing(false);
+    console.log(res);
+  };
   const handleMoveToPass = () => {
     setResetTag(0);
     setResetPassword(1);
