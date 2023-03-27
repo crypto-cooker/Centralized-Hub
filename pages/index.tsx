@@ -63,7 +63,7 @@ export default function HomePage(props: {
               <div className="relative">
                 <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                   <p className="p-4 text-lg uppercase font-normal text-white">
-                    GAME UPDATE: GETTING READY
+                    GAME UPDATE: <br /> GETTING READY
                   </p>
                 </div>
                 <img

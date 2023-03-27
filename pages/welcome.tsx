@@ -6,6 +6,8 @@ import { useMainContext } from "contexts";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Warning from "../public/img/warning.png";
+import { resendVerify } from "../actions/verify";
+import { successAlertBottom } from "components/ToastGroup";
 
 export default function WelcomePage(props: {
   startLoading: Function;
@@ -13,12 +15,22 @@ export default function WelcomePage(props: {
   pageLoading: boolean;
 }) {
   const { authToken, gamerTag, status } = useMainContext();
+  const [storeEmail, setStoreEmail] = useState<string>("");
+
   const navigator = useRouter();
+
+  const resendEmail = async () => {
+    const res = await resendVerify(storeEmail);
+    console.log(res);
+    successAlertBottom("Your GamerTag was resent to your email");
+  };
 
   useEffect(() => {
     if (!authToken) {
       navigator.push("/signin");
     }
+    const setemail = localStorage.getItem("storeEmail");
+    setStoreEmail(setemail);
   }, [authToken]);
 
   return (
@@ -33,7 +45,10 @@ export default function WelcomePage(props: {
         <div className="container w-full mx-auto max-lg:px-10 relative">
           {status === "unverified" && (
             <>
-              <div className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2">
+              <div
+                className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2"
+                onClick={resendEmail}
+              >
                 <div className="w-[3%] py-2 max-lg:w-[10%] justify-itmes-center">
                   <Image src={Warning} />
                 </div>
@@ -92,7 +107,8 @@ export default function WelcomePage(props: {
                   <div className="relative">
                     <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                       <p className="p-4 text-lg uppercase font-normal text-white">
-                        GAME UPDATE: GETTING READY
+                        GAME UPDATE:
+                        <br /> GETTING READY
                       </p>
                     </div>
                     <img
