@@ -7,6 +7,7 @@ import { TOPRigthSVG } from "components/SVGList";
 import { TOPLeftSVG } from "components/SVGList";
 import Button from "components/Button";
 import Footer from "components/Footer";
+import Link from "next/link";
 
 export default function HomePage(props: {
   startLoading: Function;
@@ -78,12 +79,13 @@ export default function HomePage(props: {
               Featured Apps
             </div>
             <div className="grid grid-cols-3 gap-4 mt-2 max-lg:grid-cols-1 max-lg:w-full">
-              {/* <div className="flex-col justify-items-center sm:flex-row space-y-4 sm:space-y-0 items-center flex w-2/3 sm:justify-around  text-xs tracking-wider font-bold mt-24 sm:mt-40"> */}
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10 border-2 border-white">
-                  <p className="uppercase">Staking</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="https://skatex.io/staking">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10 border-2 border-white">
+                    <p className="uppercase">Staking</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base ">web3 app</p>
 
                   <p className=" text-2xl">
@@ -91,16 +93,20 @@ export default function HomePage(props: {
                     collect GRIND
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="https://skatex.io/staking"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
-                  <p className="uppercase">X-Machine</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="http://skatex.io/xmachine">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
+                    <p className="uppercase">X-Machine</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base">web3 app</p>
 
                   <p className=" text-2xl">
@@ -108,16 +114,20 @@ export default function HomePage(props: {
                     exclusive prizes
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="http://skatex.io/xmachine"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
-                  <p className="uppercase">Mini KickFlip</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="https://kickflip.skatex.io/">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
+                    <p className="uppercase">Mini KickFlip</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base ">web3 app</p>
 
                   <p className="e text-2xl">
@@ -125,10 +135,12 @@ export default function HomePage(props: {
                     right call?
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="https://kickflip.skatex.io/"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
             </div>
           </div>
