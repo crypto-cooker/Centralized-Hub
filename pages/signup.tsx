@@ -80,8 +80,10 @@ export default function SignInPage(props: {
     let validation = tagRegex.test(_tag);
     if (_tag.length > 3 && validation) {
       setTagValidation(true);
+      setPassLevelStatus("success");
     } else {
       setTagValidation(false);
+      setPassLevelStatus("error");
     }
   };
 
@@ -139,12 +141,17 @@ export default function SignInPage(props: {
 
   const valDate = (month, day, year) => {
     const date = month + "/" + day + "/" + year;
+    const currentDate = new Date();
+    const currendYear = currentDate.getUTCFullYear();
+    // const currentMonth = currentDate.getUTCMonth() + 1;
+    // const currentDay = currentDate.getUTCDate();
+
     setBirth(date);
     let dateformat =
       /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
 
     // Matching the date through regular expression
-    if (date.match(dateformat)) {
+    if (date.match(dateformat) && year < currendYear) {
       let operator = date.split("/");
 
       // Extract the string into month, date and year
@@ -348,6 +355,7 @@ export default function SignInPage(props: {
                     value={tag}
                     placeholder={labelArray[currentStep]}
                     title={labelArray[currentStep]}
+                    status={passLevelStatus}
                     onChange={handleTagInputChange}
                   />
                   {tagValidation === false && tag && (

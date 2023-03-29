@@ -78,16 +78,16 @@ export default function VerifyPage(
     <>
       <main className="h-[calc(100%-300px)]">
         <div className="container w-full mx-auto h-full flex justify-center items-center">
-          <div className="main-content text-3xl mx-auto space-y-4 sm:bg-white max-w-full w-[820px] sm:h-[460px] h-auto sm:mt-14 text-center p-12 font-semibold">
+          <div className="main-content text-3xl mx-auto space-y-4 sm:bg-white max-w-full w-[820px] sm:h-[460px] h-auto sm:mt-14 text-center p-12 ">
             {currentStatus === 0 && (
               <>
-                <div className=" text-xl  font-bold mt-12">
+                <div className=" text-xl font-extrabold mt-12">
                   Verify Your Email Address
                 </div>
                 <div className="text-xl  mt-4">
                   You're alomost there. We send an email to
                 </div>
-                <div className=" text-xl  font-bold ">{storeEmail}</div>
+                <div className=" text-xl  font-extrabold ">{storeEmail}</div>
                 <div className="text-xl ">
                   Click on the link in the email to complete your registeration
                 </div>
@@ -95,7 +95,7 @@ export default function VerifyPage(
             )}
             {currentStatus === 1 && (
               <>
-                <div className="text-xl font-bold mt-12">
+                <div className="text-xl font-extrabold mt-12">
                   Your email has been verified
                 </div>
                 <div className="text-xl  mt-4">
@@ -105,7 +105,7 @@ export default function VerifyPage(
             )}
             {currentStatus === 2 && (
               <>
-                <div className=" text-xl font-bold mt-12">
+                <div className=" text-xl font-extrabold mt-12">
                   Email Verification Link Expired
                 </div>
                 <div className="text-xl px-16 mt-4">
