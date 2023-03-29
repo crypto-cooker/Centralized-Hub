@@ -35,14 +35,14 @@ export default function VerifyPage(
       setIsProcessing(true);
       console.log("hereere>>>", currentStatus);
       const res = await resendVerify(email);
-      successAlertBottom("Your GamerTag was sent to your email");
+      successAlertBottom("Your GamerTag was resent to your email");
       setIsProcessing(false);
       console.log(res);
     }
     if (currentStatus === 2) {
       setIsProcessing(true);
       const res = await resendVerify(email);
-      successAlertBottom("Your GamerTag was sent to your email");
+      successAlertBottom("Your GamerTag was resent to your email");
       setIsProcessing(false);
       console.log(res);
     }

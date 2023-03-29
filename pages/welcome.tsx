@@ -6,6 +6,9 @@ import { useMainContext } from "contexts";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Warning from "../public/img/warning.png";
+import { resendVerify } from "../actions/verify";
+import { successAlertBottom } from "components/ToastGroup";
+import Link from "next/link";
 
 export default function WelcomePage(props: {
   startLoading: Function;
@@ -13,12 +16,22 @@ export default function WelcomePage(props: {
   pageLoading: boolean;
 }) {
   const { authToken, gamerTag, status } = useMainContext();
+  const [storeEmail, setStoreEmail] = useState<string>("");
+
   const navigator = useRouter();
+
+  const resendEmail = async () => {
+    const res = await resendVerify(storeEmail);
+    console.log(res);
+    successAlertBottom("Your GamerTag was resent to your email");
+  };
 
   useEffect(() => {
     if (!authToken) {
       navigator.push("/signin");
     }
+    const setemail = localStorage.getItem("storeEmail");
+    setStoreEmail(setemail);
   }, [authToken]);
 
   return (
@@ -33,7 +46,10 @@ export default function WelcomePage(props: {
         <div className="container w-full mx-auto max-lg:px-10 relative">
           {status === "unverified" && (
             <>
-              <div className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2">
+              <div
+                className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2"
+                onClick={resendEmail}
+              >
                 <div className="w-[3%] py-2 max-lg:w-[10%] justify-itmes-center">
                   <Image src={Warning} />
                 </div>
@@ -92,7 +108,8 @@ export default function WelcomePage(props: {
                   <div className="relative">
                     <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                       <p className="p-4 text-lg uppercase font-normal text-white">
-                        GAME UPDATE: GETTING READY
+                        GAME UPDATE:
+                        <br /> GETTING READY
                       </p>
                     </div>
                     <img
@@ -127,19 +144,18 @@ export default function WelcomePage(props: {
             </div>
           )}
 
-          <div
-            className={`main-content text-3xl mx-auto mb-10 max-sm:max-w-full  lg:w-[1020px] h-auto sm:mt-14  font-semibold`}
-          >
+          <div className="main-content text-3xl mx-auto mb-10 max-sm:max-w-full lg:w-[1020px]  h-auto sm:mt-14   font-semibold">
             <div className="uppercase text-5xl tracking-widest text-white">
               Featured Apps
             </div>
             <div className="grid grid-cols-3 gap-4 mt-2 max-lg:grid-cols-1 max-lg:w-full">
-              {/* <div className="flex-col justify-items-center sm:flex-row space-y-4 sm:space-y-0 items-center flex w-2/3 sm:justify-around  text-xs tracking-wider font-bold mt-24 sm:mt-40"> */}
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10 border-2 border-white">
-                  <p className="uppercase">Staking</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="https://skatex.io/staking">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10 border-2 border-white">
+                    <p className="uppercase">Staking</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base ">web3 app</p>
 
                   <p className=" text-2xl">
@@ -147,16 +163,20 @@ export default function WelcomePage(props: {
                     collect GRIND
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="https://skatex.io/staking"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
-                  <p className="uppercase">X-Machine</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="http://skatex.io/xmachine">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
+                    <p className="uppercase">X-Machine</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base">web3 app</p>
 
                   <p className=" text-2xl">
@@ -164,16 +184,20 @@ export default function WelcomePage(props: {
                     exclusive prizes
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="http://skatex.io/xmachine"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
               <div>
-                <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
-                  <p className="uppercase">Mini KickFlip</p>
-                </div>
-                <div className="text-white space-y-2">
+                <Link href="https://kickflip.skatex.io/">
+                  <div className="flex items-center justify-center bg-stone-200  cursor-pointer select-none p-10  border-2 border-white">
+                    <p className="uppercase">Mini KickFlip</p>
+                  </div>
+                </Link>
+                <div className="text-white space-y-2 mb-4">
                   <p className="uppercase text-base ">web3 app</p>
 
                   <p className="e text-2xl">
@@ -181,10 +205,12 @@ export default function WelcomePage(props: {
                     right call?
                   </p>
                 </div>
-                <Button
-                  label="PLAY"
-                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full"
-                ></Button>
+                <a
+                  href="https://kickflip.skatex.io/"
+                  className="bg-[#5EF388] text-xl mt-4 max-sm:w-full px-10 py-2"
+                >
+                  PLAY
+                </a>
               </div>
             </div>
           </div>
