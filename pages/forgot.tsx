@@ -16,21 +16,36 @@ export default function Forgot(props: {
 }) {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
-  const [tag, setTag] = useState<string>("");
+  const [emailForpass, setEmailForpass] = useState<string>("");
   const [resetTag, setResetTag] = useState<number>(0);
   const [resetPassword, setResetPassword] = useState<number>(0);
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
+  const [passLevelMsg, setPassLevelMsg] = useState<string>("");
   const [validation, setValidation] = useState<boolean>(false);
 
   const handleEmailInputChange = (e) => {
+    setEmail(e.target.value);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
     const isValidEmail = emailRegex.test(email);
     setValidation(isValidEmail);
-    setEmail(e.target.value);
+    if (!isValidEmail) {
+      setPassLevelStatus("error");
+    } else {
+      setPassLevelStatus("success");
+    }
     console.log(isValidEmail);
   };
   const handleTagInputChange = (e) => {
-    setTag(e.target.value);
+    setEmailForpass(e.target.value);
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
+    const isValidEmail = emailRegex.test(emailForpass);
+    setValidation(isValidEmail);
+    if (!isValidEmail) {
+      setPassLevelStatus("error");
+    } else {
+      setPassLevelStatus("success");
+    }
+    console.log(isValidEmail);
   };
 
   const handleResetTag = useCallback(async () => {
@@ -49,9 +64,9 @@ export default function Forgot(props: {
   const ResetPassword = async () => {
     setIsProcessing(true);
 
-    const res = await forgotPass(tag);
+    const res = await forgotPass(email);
     successAlertBottom("Your password reset link was sent to your email");
-    setTag("");
+    setEmailForpass("");
     console.log(res);
     setIsProcessing(false);
   };
@@ -163,24 +178,24 @@ export default function Forgot(props: {
             {resetPassword === 1 && (
               <>
                 <div className="text-2xl tracking-wider uppercase text-center">
-                  Enter Your Gametag
+                  Enter Your Email
                 </div>
                 <div className="text-xs tracking-wider text-center text-gray-500 mt-4">
-                  Enter the Gamertag or email you sign in with to reset your
-                  password.
+                  Enter the email you sign in with to reset your password.
                 </div>
                 <div className="w-full mt-8 space-y-8">
                   <Input
                     className="border-0"
-                    value={tag}
-                    placeholder="YOUR GAMERTAG OR EMAIL"
-                    title="YOUR GAMERTAG OR EMAIL"
+                    value={emailForpass}
+                    status={passLevelStatus}
+                    placeholder="YOUR EMAIL"
+                    title="YOUR EMAIL"
                     onChange={handleTagInputChange}
                   />
                 </div>
                 <div
                   className={`${
-                    !tag
+                    !emailForpass
                       ? "hidden"
                       : "w-[70%] text-center mt-4 absolute text-xs"
                   }`}
@@ -197,7 +212,7 @@ export default function Forgot(props: {
                     label="SUBMIT"
                     isLoading={isProcessing}
                     className={` ${
-                      tag
+                      validation === true
                         ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black"
                         : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px]"
                     }`}
