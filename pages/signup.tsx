@@ -25,6 +25,8 @@ export default function SignInPage(props: {
   const [passConfirm, setPassConfirm] = useState<string>("");
   const [passLevelMsg, setPassLevelMsg] = useState<string>("");
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
+  const [tagLevelStatus, setTagLevelStatus] = useState<string>("success");
+
   const [passValidations, setPassValidations] = useState<boolean[]>([
     false,
     false,
@@ -76,15 +78,16 @@ export default function SignInPage(props: {
   const handleTagInputChange = (e) => {
     let _tag = e.target.value;
     setTag(_tag);
-    const tagRegex = /[a-zA-Z0-9]/;
-    let validation = tagRegex.test(_tag);
-    if (_tag.length > 3 && validation) {
-      setTagValidation(true);
-      setPassLevelStatus("success");
-    } else {
-      setTagValidation(false);
-      setPassLevelStatus("error");
-    }
+    // const tagRegex = /[a-zA-Z0-9]/;
+    // let validation = tagRegex.test(_tag);
+    // console.log("shit>>>", validation, _tag.length);
+    // if (_tag.length > 3 && validation) {
+    //   setTagValidation(true);
+    //   setPassLevelStatus("success");
+    // } else {
+    //   setTagValidation(false);
+    //   setPassLevelStatus("error");
+    // }
   };
 
   const handlePassInputChange = useCallback(
@@ -139,10 +142,20 @@ export default function SignInPage(props: {
     else setReceiveBT("checked");
   };
 
+  const valTag = (tag) => {
+    const tagRegex = /^[A-Za-z0-9]*$/;
+    let validation = tagRegex.test(tag);
+    if (tag.match(tagRegex) && tag.length > 3) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const valDate = (month, day, year) => {
     const date = month + "/" + day + "/" + year;
     const currentDate = new Date();
-    const currendYear = currentDate.getUTCFullYear();
+    const currentYear = currentDate.getUTCFullYear();
     // const currentMonth = currentDate.getUTCMonth() + 1;
     // const currentDay = currentDate.getUTCDate();
 
@@ -151,7 +164,7 @@ export default function SignInPage(props: {
       /^(0?[1-9]|1[0-2])[\/](0?[1-9]|[1-2][0-9]|3[01])[\/]\d{4}$/;
 
     // Matching the date through regular expression
-    if (date.match(dateformat) && year < currendYear) {
+    if (date.match(dateformat) && year < currentYear) {
       let operator = date.split("/");
 
       // Extract the string into month, date and year
@@ -242,13 +255,25 @@ export default function SignInPage(props: {
     if (currentStep === 1) {
       if (!birth) return;
     }
-    if (currentStep === 2 && !tag) return;
+    if (currentStep === 2) {
+      if (!tag) return;
+    }
     setPassLevelMsg("");
     setPassLevelStatus("success");
     setCurrentStep(currentStep + 1);
   }, [currentStep, pass, email, tag, birth, passConfirm, passValidations]);
 
   const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (valTag(tag)) {
+      setTagValidation(true);
+      setTagLevelStatus("success");
+    } else {
+      setTagValidation(false);
+      setTagLevelStatus("error");
+    }
+  }, [tag]);
 
   useEffect(() => {
     if (valDate(month, day, year)) {
@@ -355,7 +380,7 @@ export default function SignInPage(props: {
                     value={tag}
                     placeholder={labelArray[currentStep]}
                     title={labelArray[currentStep]}
-                    status={passLevelStatus}
+                    status={tagLevelStatus}
                     onChange={handleTagInputChange}
                   />
                   {tagValidation === false && tag && (
