@@ -39,6 +39,7 @@ export default function Forgot(props: {
     setEmailForpass(e.target.value);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
     const isValidEmail = emailRegex.test(emailForpass);
+    console.log(emailForpass);
     setValidation(isValidEmail);
     if (!isValidEmail) {
       setPassLevelStatus("error");
@@ -63,8 +64,8 @@ export default function Forgot(props: {
 
   const ResetPassword = async () => {
     setIsProcessing(true);
-
-    const res = await forgotPass(email);
+    console.log(emailForpass);
+    const res = await forgotPass(emailForpass);
     successAlertBottom("Your password reset link was sent to your email");
     setEmailForpass("");
     console.log(res);
