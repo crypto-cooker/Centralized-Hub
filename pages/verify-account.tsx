@@ -21,7 +21,35 @@ export default function VerifyPage(
   const [email, setEmail] = useState<string>("");
   const [getCode, setGetCode] = useState<string>("");
 
-  const handleVerifyBtnClicked = useCallback(async () => {
+  useEffect(() => {
+    const setemail = localStorage.getItem("storeEmail");
+    setStoreEmail(setemail);
+    setEmail(setemail);
+    console.log(email);
+  });
+
+  useEffect(() => {
+    if (!routes) return;
+
+    if (routes.asPath !== "/verify-account") {
+      const path = routes.asPath.split("=");
+      const verifycode = path[1].split("&");
+      const getEmail = path[2];
+      const getCode = verifycode[0];
+      console.log(getEmail, getCode);
+      (async () => {
+        const verifyRes = await verifyEmail(getEmail, getCode);
+        console.log(verifyRes);
+        if (verifyRes === "OK") {
+          setCurrentStatus(1);
+        } else {
+          setCurrentStatus(2);
+        }
+      })();
+    }
+  }, [routes.asPath !== "/verify-account"]);
+
+  const handleVerifyBtnClicked = async () => {
     if (currentStatus === 1) {
       setIsProcessing(true);
       console.log("hereere>>>", currentStatus);
@@ -33,7 +61,7 @@ export default function VerifyPage(
 
     if (currentStatus === 0) {
       setIsProcessing(true);
-      console.log("hereere>>>", currentStatus);
+      console.log("hereere>>>", storeEmail);
       const res = await resendVerify(email);
       successAlertBottom("Your verify link was resent to your email");
       setIsProcessing(false);
@@ -49,31 +77,8 @@ export default function VerifyPage(
 
     // setCurrentStatus(currentStatus + 1);
     setIsProcessing(false);
-  }, [currentStatus]);
+  };
 
-  useEffect(() => {
-    if (!routes) return;
-    const setemail = localStorage.getItem("storeEmail");
-    setStoreEmail(setemail);
-    setEmail(setemail);
-    console.log(routes);
-    if (routes.asPath !== "/verify-account") {
-      const path = routes.asPath.split("=");
-      const verifycode = path[1].split("&");
-      const email = path[2];
-      const code = verifycode[0];
-      console.log(email, code);
-      (async () => {
-        const verifyRes = await verifyEmail(email, code);
-        console.log(verifyRes);
-        if (verifyRes === "OK") {
-          setCurrentStatus(1);
-        } else {
-          setCurrentStatus(2);
-        }
-      })();
-    }
-  }, [routes.asPath !== "/verify-account"]);
   return (
     <>
       <main className="h-[calc(100%-300px)]">
@@ -85,7 +90,7 @@ export default function VerifyPage(
                   Verify Your Email Address
                 </div>
                 <div className="text-xl  mt-4">
-                  You're alomost there. We send an email to
+                  You're alomost there. We sent an email to
                 </div>
                 <div className=" text-xl  font-extrabold ">{storeEmail}</div>
                 <div className="text-xl ">
