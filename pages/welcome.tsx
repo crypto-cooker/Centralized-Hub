@@ -23,7 +23,7 @@ export default function WelcomePage(props: {
   const resendEmail = async () => {
     const res = await resendVerify(storeEmail);
     console.log(res);
-    successAlertBottom("Your GamerTag was resent to your email");
+    successAlertBottom("Your verify link was resent to your email");
   };
 
   useEffect(() => {

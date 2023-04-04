@@ -119,7 +119,7 @@ export default function SignInPage(props: {
           break;
         case 4:
           setPassLevelStatus("success");
-          setPassLevelMsg("Very String");
+          setPassLevelMsg("Very Stroing");
           break;
         default:
           setPassLevelStatus(" ");
@@ -144,7 +144,8 @@ export default function SignInPage(props: {
 
   const valTag = (tag) => {
     const tagRegex = /^[A-Za-z0-9]*$/;
-    let validation = tagRegex.test(tag);
+    let tagvalidation = tagRegex.test(tag);
+    console.log("valtag<<<", tagvalidation);
     if (tag.match(tagRegex) && tag.length > 3) {
       return true;
     } else {
@@ -233,7 +234,7 @@ export default function SignInPage(props: {
     }
     if (currentStep === 0) {
       if (!email) return;
-
+      setIsProcessing(true);
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
       const isValidEmail = emailRegex.test(email);
 
@@ -250,13 +251,27 @@ export default function SignInPage(props: {
         setPassLevelStatus("error");
         return;
       }
+      setIsProcessing(false);
       setValidation(false);
     }
     if (currentStep === 1) {
       if (!birth) return;
+      setIsProcessing(true);
+      if (!valDate(month, day, year)) {
+        return;
+      }
+      setIsProcessing(false);
     }
     if (currentStep === 2) {
       if (!tag) return;
+      setIsProcessing(true);
+      const tagRegex = /^[A-Za-z0-9]*$/;
+      let tagvalidation = tagRegex.test(tag);
+      console.log("tag>>>", tagvalidation);
+      if (!valTag(tag)) {
+        return;
+      }
+      setIsProcessing(false);
     }
     setPassLevelMsg("");
     setPassLevelStatus("success");
@@ -481,7 +496,6 @@ export default function SignInPage(props: {
               {currentStep === 1 && (
                 <Button
                   label="Next"
-                  isLoading={isProcessing}
                   className={` ${
                     currentStep === 1 && dateValidation
                       ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-20"
@@ -493,7 +507,6 @@ export default function SignInPage(props: {
               {currentStep === 2 && (
                 <Button
                   label="Next"
-                  isLoading={isProcessing}
                   className={` ${
                     currentStep === 2 && tagValidation === true
                       ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-20"
@@ -505,7 +518,6 @@ export default function SignInPage(props: {
               {currentStep === 3 && (
                 <Button
                   label="Let's go"
-                  isLoading={isProcessing}
                   className={` ${
                     currentStep === 3 && pass && pass === passConfirm
                       ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-10"
