@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import Button from "components/Button";
 import { resendVerify, verifyEmail } from "actions/verify";
-import { successAlertBottom } from "components/ToastGroup";
+import { errorAlertBottom, successAlertBottom } from "components/ToastGroup";
 
 export default function VerifyPage(
   props: {
@@ -63,14 +63,22 @@ export default function VerifyPage(
       setIsProcessing(true);
       console.log("hereere>>>", storeEmail);
       const res = await resendVerify(email);
-      successAlertBottom("Your verify link was resent to your email");
+      if (typeof res !== "string") {
+        successAlertBottom("Your verify link was resent to your email");
+      } else {
+        errorAlertBottom("Invalid request");
+      }
       setIsProcessing(false);
       console.log(res);
     }
     if (currentStatus === 2) {
       setIsProcessing(true);
       const res = await resendVerify(email);
-      successAlertBottom("Your verify link was resent to your email");
+      if (typeof res !== "string") {
+        successAlertBottom("Your verify link was resent to your email");
+      } else {
+        errorAlertBottom("Invalid request");
+      }
       setIsProcessing(false);
       console.log(res);
     }
@@ -94,7 +102,7 @@ export default function VerifyPage(
                 </div>
                 <div className=" text-xl  font-extrabold ">{storeEmail}</div>
                 <div className="text-xl ">
-                  Click on the link in the email to complete your registeration
+                  Click on the link in the email to complete your registration
                 </div>
               </>
             )}
