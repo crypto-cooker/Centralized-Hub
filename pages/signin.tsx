@@ -52,7 +52,7 @@ export default function SignInPage(props: {
 
     setIsProcessing(true);
     const validLogin = await login(name, pass);
-
+    console.log(authToken);
     if (!authToken) {
       setPassLevelStatus("error");
       setPassLevelMsg(

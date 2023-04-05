@@ -46,17 +46,20 @@ export default function WelcomePage(props: {
         <div className="container w-full mx-auto max-lg:px-10 relative">
           {status === "unverified" && (
             <>
-              <div
-                className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2"
-                onClick={resendEmail}
-              >
+              <div className="flex  mx-auto px-10 py-1 justify-items-center bg-white rounded-md w-[1020px] hover:cursor-pointer max-lg:w-full max-lg:px-2">
                 <div className="w-[3%] py-2 max-lg:w-[10%] justify-itmes-center">
                   <Image src={Warning} />
                 </div>
                 <p className="text-sm text-[#FF0000] py-2 max-lg:pt-0">
                   Your account hasn’t been verified yet. Please verify your
                   account to participate in HUB features. If you need to resend
-                  the verification link, click here.
+                  the verification link,
+                  <p
+                    className="text-sm text-[#FF0000] py-2 max-lg:pt-0"
+                    onClick={resendEmail}
+                  >
+                    click here.
+                  </p>
                 </p>
               </div>
               <div className="main-content  mx-auto max-w-full w-[1020px] mt-6 grid grid-cols-4 gap-4 max-sm:grid-cols-1">
