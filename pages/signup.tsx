@@ -430,7 +430,7 @@ export default function SignInPage(props: {
                   onChange={handleReceiveBTCheckBoxChange}
                 />
                 <p>
-                  Receive news, special offers, and playtest invitatinos from
+                  Receive news, special offers, and playtest invitations from
                   Block Tackle Inc.
                 </p>
               </div>
