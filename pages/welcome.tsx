@@ -9,6 +9,11 @@ import Warning from "../public/img/warning.png";
 import { resendVerify } from "../actions/verify";
 import { successAlertBottom } from "components/ToastGroup";
 import Link from "next/link";
+import { firstSlide, secondSlide, thirdSlide } from "config";
+
+function getImageSrc(image: StaticImageData): string {
+  return image.src.toString();
+}
 
 export default function WelcomePage(props: {
   startLoading: Function;
@@ -18,6 +23,23 @@ export default function WelcomePage(props: {
   const { authToken, gamerTag, status } = useMainContext();
   const [storeEmail, setStoreEmail] = useState<string>("");
 
+  const [currentImage, setCurrentImage] = useState<string>(() =>
+    getImageSrc(firstSlide)
+  );
+  const [imgaeStatus, setImageStatus] = useState<number>(0);
+
+  const handleSelectFistImage = () => {
+    setCurrentImage(() => getImageSrc(firstSlide));
+    setImageStatus(0);
+  };
+  const handleSelectSecondImage = () => {
+    setCurrentImage(() => getImageSrc(secondSlide));
+    setImageStatus(1);
+  };
+  const handleSelectThirdImage = () => {
+    setCurrentImage(() => getImageSrc(thirdSlide));
+    setImageStatus(2);
+  };
   const navigator = useRouter();
 
   const resendEmail = async () => {
@@ -62,11 +84,17 @@ export default function WelcomePage(props: {
                   </p>
                 </p>
               </div>
-              <div className="main-content  mx-auto max-w-full w-[1020px] mt-6 grid grid-cols-4 gap-4 max-sm:grid-cols-1">
+              <div className="main-content  mx-auto max-w-full w-[1020px] mt-14 grid grid-cols-4 gap-4 max-sm:grid-cols-1">
                 <div className="col-span-3 relative max-sm:hidden">
                   <div className="absolute right-0 top-0 z-10">
                     <TOPRigthSVG />
                   </div>
+                  <Image
+                    src={currentImage}
+                    className="w-full h-full object-cover"
+                    width={1000}
+                    height={620}
+                  />
                   <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                     <p className="p-4 text-4xl uppercase font-normal text-white">
                       New Mode Design: Tile Puzzle
@@ -75,14 +103,19 @@ export default function WelcomePage(props: {
                       Inside the studio and how its done
                     </p>
                   </div>
-                  <img
-                    src="/img/drip.png"
-                    className="w-full h-full object-cover"
-                  />
                 </div>
                 <div className="flex flex-col gap-y-[11px] ">
-                  <div className="relative border-2 border-[#5EF388]">
-                    <div className="absolute left-0 top-0 z-10 -rotate-90">
+                  <div
+                    className={`relative  hover:cursor-pointer ${
+                      imgaeStatus === 0 ? "border-2 border-[#5EF388]" : ""
+                    }`}
+                    onClick={handleSelectFistImage}
+                  >
+                    <div
+                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
+                        imgaeStatus !== 0 ? "hidden" : ""
+                      }`}
+                    >
                       <TOPRigthSVG />
                     </div>
                     <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
@@ -91,34 +124,69 @@ export default function WelcomePage(props: {
                         <br /> Tile Puzzle
                       </p>
                     </div>
-                    <img
-                      src="/img/drip.png"
+                    <Image
+                      src={firstSlide}
                       className="max-h-[146px] min-h-[146px] object-cover w-full"
+                      width={500}
+                      height={300}
                     />
-                  </div>
-                  <div className="relative">
                     <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+                      <p className="p-4 text-lg uppercase font-normal text-white">
+                        New Mode Design:
+                        <br /> Tile Puzzle
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className={`relative  hover:cursor-pointer ${
+                      imgaeStatus === 1 ? "border-2 border-[#5EF388]" : ""
+                    }`}
+                    onClick={handleSelectSecondImage}
+                  >
+                    <div
+                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
+                        imgaeStatus !== 1 ? "hidden" : ""
+                      }`}
+                    >
+                      <TOPRigthSVG />
+                    </div>
+                    <Image
+                      src={secondSlide}
+                      className="max-h-[146px] min-h-[146px] object-cover w-full"
+                      width={500}
+                      height={300}
+                    />
+                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
                       <p className="p-4 text-lg uppercase font-normal text-white">
                         GAME UPDATE:
                         <br /> GETTING READY
                       </p>
                     </div>
-                    <img
-                      src="/img/coffee.png"
-                      className="max-h-[146px] min-h-[146px] object-cover w-full"
-                    />
                   </div>
-                  <div className="relative">
-                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+                  <div
+                    className={`relative  hover:cursor-pointer ${
+                      imgaeStatus === 2 ? "border-2 border-[#5EF388]" : ""
+                    }`}
+                    onClick={handleSelectThirdImage}
+                  >
+                    <div
+                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
+                        imgaeStatus !== 2 ? "hidden" : ""
+                      }`}
+                    >
+                      <TOPRigthSVG />
+                    </div>
+                    <Image
+                      src={thirdSlide}
+                      className="max-h-[146px] min-h-[146px] object-cover w-full"
+                      width={500}
+                      height={300}
+                    />
+                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
                       <p className="p-4 text-lg uppercase font-normal text-white">
-                        GAME UPDATE:
-                        <br /> GETTING READY
+                        GAME UPDATE: <br /> GETTING READY
                       </p>
                     </div>
-                    <img
-                      src="/img/skate.png"
-                      className="max-h-[146px] min-h-[146px] object-cover w-full"
-                    />
                   </div>
                 </div>
               </div>
