@@ -28,6 +28,8 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
           ? "h-auto"
           : currentPath === "/welcome"
           ? "h-auto"
+          : currentPath === "/pre-registeration"
+          ? "h-auto"
           : "h-screen"
       }`}
     >

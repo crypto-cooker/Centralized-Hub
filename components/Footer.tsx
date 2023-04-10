@@ -13,6 +13,8 @@ const Footer = ({ path }: IFooterProps): JSX.Element => {
           ? "relative"
           : path === "/welcome"
           ? "relative"
+          : path === "/pre-registeration"
+          ? "relative"
           : "absolute"
       }`}
     >

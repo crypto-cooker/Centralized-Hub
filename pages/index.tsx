@@ -1,12 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
+import { CSSTransition } from "react-transition-group";
+import "animate.css/animate.min.css";
 import { TOPRigthSVG } from "components/SVGList";
+import ImageGallery from "react-image-gallery";
+
+// import "bootstrap/dist/css/bootstrap.min.css";
+
 import { TOPLeftSVG } from "components/SVGList";
 import Button from "components/Button";
 import Footer from "components/Footer";
+import { Bounce, Flip, Fade } from "react-reveal";
+
 import Link from "next/link";
-import { useState } from "react";
-import { firstSlide, secondSlide, thirdSlide } from "config";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { firstSlide, secondSlide, thirdSlide, Slides } from "config";
 
 function getImageSrc(image: StaticImageData): string {
   return image.src.toString();
@@ -19,35 +28,79 @@ export default function HomePage(props: {
   const [currentImage, setCurrentImage] = useState<string>(() =>
     getImageSrc(firstSlide)
   );
-  const [imgaeStatus, setImageStatus] = useState<number>(0);
+  const [imgaeStatus, setImageStatus] = useState<number>(1);
+  // const [imgIndex, setImgIndex] = useState<number>(0);
+  const bootstrap = Slides;
+  const [index, setIndex] = useState<number>(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   const handleSelectFistImage = () => {
     setCurrentImage(() => getImageSrc(firstSlide));
-    setImageStatus(0);
+    setImageStatus(1);
+    clearInterval(0);
   };
   const handleSelectSecondImage = () => {
     setCurrentImage(() => getImageSrc(secondSlide));
-    setImageStatus(1);
+    setImageStatus(2);
+    clearInterval(0);
   };
   const handleSelectThirdImage = () => {
     setCurrentImage(() => getImageSrc(thirdSlide));
-    setImageStatus(2);
+    setImageStatus(3);
+    clearInterval(0);
   };
+
+  const [image, setImage] = useState<number>(0);
+
+  setTimeout(() => {
+    let imgIndex = image + 1;
+
+    if (imgIndex > 3) {
+      imgIndex = 1;
+    }
+    setImage(imgIndex);
+  }, 3000);
+
+  useEffect(() => {
+    setCurrentImage(() =>
+      getImageSrc(
+        image === 1 ? firstSlide : image === 2 ? secondSlide : thirdSlide
+      )
+    );
+    setImageStatus(image);
+  }, [image]);
+
   return (
     <>
       <main>
         <div className="container w-full mx-auto max-sm:px-10 ">
           <div className="main-content  mx-auto max-w-full w-[1020px] mt-14 grid grid-cols-4 gap-4 max-sm:grid-cols-1">
-            <div className="col-span-3 relative max-sm:hidden">
+            <div className="col-span-3 relative max-sm:hidden duration-300 transition-all">
               <div className="absolute right-0 top-0 z-10">
                 <TOPRigthSVG />
               </div>
-              <Image
-                src={currentImage}
-                className="w-full h-full object-cover"
-                width={1000}
-                height={620}
-              />
+
+              <CSSTransition
+                key={currentImage}
+                timeout={3000}
+                classNames="fade"
+              >
+                <Image
+                  src={currentImage}
+                  className="w-full h-full object-cover animate__animated animate__slideInLeft"
+                  width={1000}
+                  height={620}
+                />
+              </CSSTransition>
+
+              {/* <ImageGallery
+                items={images}
+                autoPlay={true}
+                showPauseButton={false}
+              /> */}
+
               <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                 <p className="p-4 text-4xl uppercase font-normal text-white">
                   New Mode Design: Tile Puzzle
@@ -60,13 +113,13 @@ export default function HomePage(props: {
             <div className="flex flex-col gap-y-[11px] ">
               <div
                 className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 0 ? "border-2 border-[#5EF388]" : ""
+                  imgaeStatus === 1 ? "border-2 border-[#5EF388]" : ""
                 }`}
                 onClick={handleSelectFistImage}
               >
                 <div
                   className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 0 ? "hidden" : ""
+                    imgaeStatus === 1 ? "" : "hidden"
                   }`}
                 >
                   <TOPRigthSVG />
@@ -92,13 +145,13 @@ export default function HomePage(props: {
               </div>
               <div
                 className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 1 ? "border-2 border-[#5EF388]" : ""
+                  imgaeStatus === 2 ? "border-2 border-[#5EF388]" : ""
                 }`}
                 onClick={handleSelectSecondImage}
               >
                 <div
                   className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 1 ? "hidden" : ""
+                    imgaeStatus === 2 ? "" : "hidden"
                   }`}
                 >
                   <TOPRigthSVG />
@@ -118,13 +171,13 @@ export default function HomePage(props: {
               </div>
               <div
                 className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 2 ? "border-2 border-[#5EF388]" : ""
+                  imgaeStatus === 3 ? "border-2 border-[#5EF388]" : ""
                 }`}
                 onClick={handleSelectThirdImage}
               >
                 <div
                   className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 2 ? "hidden" : ""
+                    imgaeStatus === 3 ? "" : "hidden"
                   }`}
                 >
                   <TOPRigthSVG />
@@ -218,3 +271,18 @@ export default function HomePage(props: {
     </>
   );
 }
+
+const images = [
+  {
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/"
+  },
+  {
+    original: "https://picsum.photos/id/1015/1000/600/",
+    thumbnail: "https://picsum.photos/id/1015/250/150/"
+  },
+  {
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/"
+  }
+];
