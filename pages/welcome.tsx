@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import Button from "components/Button";
+import { AnimatePresence } from "framer-motion";
 import { TOPRigthSVG } from "components/SVGList";
 import { useMainContext } from "contexts";
 import { useRouter } from "next/router";

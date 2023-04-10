@@ -9,8 +9,9 @@ export const firstSlide = FirstSlide
 export const secondSlide = SencondSlide
 export const thirdSlide = ThirdSlide
 
-// export const Slides = {
-//   firstSlide: FirstSlide,
-//   secondSide: SencondSlide,
-//   thirdSlide: ThirdSlide
-// }
+export const Slides = {
+  firstSlide: FirstSlide,
+  secondSide: SencondSlide,
+  thirdSlide: ThirdSlide
+}
+
