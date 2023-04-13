@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMainContext } from "contexts";
 import langSrc from "../assets/lang.svg";
 import menuSvg from "../assets/menu.svg";
@@ -16,6 +16,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
 
   const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
   const [isDropdownOpened, setIsDropdownOpened] = useState<boolean>(false);
+  const ref = useRef(null);
 
   const handleSignInClicked = () => {
     if (!authToken) {
@@ -31,6 +32,20 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
   const handleToggleMenuClicked = () => {
     setIsMenuOpened((opened) => !opened);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsDropdownOpened(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
   const logOut = () => {
     console.log("click");
     router.push("/");
@@ -42,6 +57,7 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         className={`w-full lg:flex text-white uppercase justify-start items-center space-x-10 text-xl tracking-widest hidden ${
           path === "/verify-account" ? "lg:hidden" : ""
         }`}
+        ref={ref}
       >
         <div className="cursor-pointer select-none">
           Utility <Image src={dropdown} />
@@ -85,15 +101,22 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         />
       </div>
       {isDropdownOpened && (
-        <div className="min-w-[300px] flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5">
-          <div className="hover:cursor-pointer">
+        <div className="min-w-[300px] z-20 flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5">
+          <div className="hover:cursor-pointer hover:font-bold">
             Account settings
-            <li className="hover:cursor-pointer">Password reset</li>
           </div>
-          <div className="hover:cursor-pointer">Score/Rank/Tropzhies</div>
-          <div className="hover:cursor-pointer">Friends</div>
-          <div className="hover:cursor-pointer">My Games</div>
-          <div className="hover:cursor-pointer" onClick={logOut}>
+          <div className="hover:cursor-pointer hover:font-bold">
+            Password reset
+          </div>
+          <div className="hover:cursor-pointer hover:font-bold">
+            Score/Rank/Tropzhies
+          </div>
+          <div className="hover:cursor-pointer hover:font-bold">Friends</div>
+          <div className="hover:cursor-pointer hover:font-bold">My Games</div>
+          <div
+            className="hover:cursor-pointer hover:font-bold"
+            onClick={logOut}
+          >
             Logout
           </div>
         </div>
