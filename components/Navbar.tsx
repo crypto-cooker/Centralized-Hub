@@ -57,7 +57,6 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         className={`w-full lg:flex text-white uppercase justify-start items-center space-x-10 text-xl tracking-widest hidden ${
           path === "/verify-account" ? "lg:hidden" : ""
         }`}
-        ref={ref}
       >
         <div className="cursor-pointer select-none">
           Utility <Image src={dropdown} />
@@ -101,7 +100,10 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
         />
       </div>
       {isDropdownOpened && (
-        <div className="min-w-[300px] z-20 flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5">
+        <div
+          className="min-w-[300px] z-20 flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5"
+          ref={ref}
+        >
           <div className="hover:cursor-pointer hover:font-bold">
             Account settings
           </div>
