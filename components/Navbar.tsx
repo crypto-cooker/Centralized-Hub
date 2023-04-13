@@ -1,7 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-
 import { useMainContext } from "contexts";
 import langSrc from "../assets/lang.svg";
 import menuSvg from "../assets/menu.svg";
@@ -22,16 +22,20 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
       router.push("/signin");
       logout();
     } else {
-      router.push("/");
-      logout();
-      // setIsDropdownOpened(!isDropdownOpened);
+      // router.push("/");
+      // logout();
+      setIsDropdownOpened(!isDropdownOpened);
     }
   };
 
   const handleToggleMenuClicked = () => {
     setIsMenuOpened((opened) => !opened);
   };
-
+  const logOut = () => {
+    console.log("click");
+    router.push("/");
+    logout();
+  };
   return (
     <>
       <div
@@ -61,7 +65,6 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
             </div>
             <div>Utility</div>
             <div>Games</div>
-
             <div>$GRIND</div>
           </div>
         </div>
@@ -83,14 +86,16 @@ const Navbar = ({ path }: { path: string }): JSX.Element => {
       </div>
       {isDropdownOpened && (
         <div className="min-w-[300px] flex flex-col gap-y-5 absolute right-20 top-20 bg-gray-400 p-5">
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
-          <li>asdfasdfasd</li>
+          <div className="hover:cursor-pointer">
+            Account settings
+            <li className="hover:cursor-pointer">Password reset</li>
+          </div>
+          <div className="hover:cursor-pointer">Score/Rank/Tropzhies</div>
+          <div className="hover:cursor-pointer">Friends</div>
+          <div className="hover:cursor-pointer">My Games</div>
+          <div className="hover:cursor-pointer" onClick={logOut}>
+            Logout
+          </div>
         </div>
       )}
     </>
