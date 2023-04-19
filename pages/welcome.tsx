@@ -12,6 +12,8 @@ import { resendVerify } from "../actions/verify";
 import { successAlertBottom } from "components/ToastGroup";
 import Link from "next/link";
 import { firstSlide, secondSlide, thirdSlide } from "config";
+import { getEvents } from "actions/getEvents";
+import { EventType } from "utils/utils";
 
 function getImageSrc(image: StaticImageData): string {
   return image.src.toString();
@@ -25,24 +27,20 @@ export default function WelcomePage(props: {
   const { authToken, gamerTag, status } = useMainContext();
   const [storeEmail, setStoreEmail] = useState<string>("");
 
+  const [event, setEvent] = useState<EventType[]>([]);
+  const [image, setImage] = useState<number>(0);
   const [currentImage, setCurrentImage] = useState<string>(() =>
     getImageSrc(firstSlide)
   );
+  const [currentGameType, setCurrentGameType] = useState<string>();
+  const [currentTitle, setCurrentTitle] = useState<string>();
   const [imgaeStatus, setImageStatus] = useState<number>(0);
 
-  const handleSelectFistImage = () => {
-    setCurrentImage(() => getImageSrc(firstSlide));
-    setImageStatus(1);
-    clearInterval(0);
-  };
-  const handleSelectSecondImage = () => {
-    setCurrentImage(() => getImageSrc(secondSlide));
-    setImageStatus(2);
-    clearInterval(0);
-  };
-  const handleSelectThirdImage = () => {
-    setCurrentImage(() => getImageSrc(thirdSlide));
-    setImageStatus(3);
+  const handleSelectImage = (item: EventType, index) => {
+    setCurrentImage(item.eventDetails?.eventAnnouncementImage);
+    setCurrentGameType(item.eventDetails?.gameType);
+    setCurrentTitle(item.eventDetails?.eventAnnouncementTitle);
+    setImageStatus(index);
     clearInterval(0);
   };
   const navigator = useRouter();
@@ -60,7 +58,6 @@ export default function WelcomePage(props: {
     const setemail = localStorage.getItem("storeEmail");
     setStoreEmail(setemail);
   }, [authToken]);
-  const [image, setImage] = useState<number>(0);
 
   setTimeout(() => {
     let imgIndex = image + 1;
@@ -69,15 +66,30 @@ export default function WelcomePage(props: {
       imgIndex = 1;
     }
     setImage(imgIndex);
-  }, 3000);
+  }, 5000);
 
   useEffect(() => {
-    setCurrentImage(() =>
-      getImageSrc(
-        image === 1 ? firstSlide : image === 2 ? secondSlide : thirdSlide
-      )
-    );
-    setImageStatus(image);
+    // const data = fetchData;
+    const data = async () => {
+      try {
+        const getData = await getEvents();
+        console.log(
+          image - 1,
+          getData[image - 1].eventDetails?.eventAnnouncementImage
+        );
+        setCurrentImage(
+          getData[image - 1].eventDetails?.eventAnnouncementImage
+        );
+        setCurrentGameType(getData[image - 1].eventDetails?.gameType);
+        setCurrentTitle(
+          getData[image - 1].eventDetails?.eventAnnouncementTitle
+        );
+      } catch (e) {
+        console.log("error");
+      }
+    };
+    data();
+    setImageStatus(image - 1);
   }, [image]);
 
   return (
@@ -116,7 +128,7 @@ export default function WelcomePage(props: {
 
                   <CSSTransition
                     key={currentImage}
-                    timeout={3000}
+                    timeout={5000}
                     classNames="fade"
                   >
                     <Image
@@ -135,97 +147,49 @@ export default function WelcomePage(props: {
 
                   <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                     <p className="p-4 text-4xl uppercase font-normal text-white">
-                      New Mode Design: Tile Puzzle
+                      {currentGameType}
                     </p>
                     <p className="pl-4 pb-10 text-2xl text-white opacity-60">
-                      Inside the studio and how its done
+                      {currentTitle}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-y-[11px] ">
-                  <div
-                    className={`relative  hover:cursor-pointer ${
-                      imgaeStatus === 1 ? "border-2 border-[#5EF388]" : ""
-                    }`}
-                    onClick={handleSelectFistImage}
-                  >
+                  {event.map((item, index = 3) => (
                     <div
-                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                        imgaeStatus === 1 ? "" : "hidden"
+                      key={index}
+                      className={`relative  hover:cursor-pointer ${
+                        imgaeStatus === index ? "border-2 border-[#5EF388]" : ""
                       }`}
+                      onClick={() => handleSelectImage(item, index)}
                     >
-                      <TOPRigthSVG />
+                      <div
+                        className={`absolute left-0 top-0 z-10 -rotate-90  ${
+                          imgaeStatus === index ? "" : "hidden"
+                        }`}
+                      >
+                        <TOPRigthSVG />
+                      </div>
+                      <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+                        <p className="p-4 text-lg uppercase font-normal text-white">
+                          {item.eventDetails?.gameType}:
+                          <br /> {item.eventDetails.eventAnnouncementTitle}
+                        </p>
+                      </div>
+                      <Image
+                        src={item.eventDetails?.eventAnnouncementImage}
+                        className="max-h-[146px] min-h-[146px] object-cover w-full"
+                        width={500}
+                        height={300}
+                      />
+                      <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+                        <p className="p-4 text-lg uppercase font-normal text-white">
+                          {item.eventDetails?.gameType}:
+                          <br /> {item.eventDetails.eventAnnouncementTitle}
+                        </p>
+                      </div>
                     </div>
-                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
-                      <p className="p-4 text-lg uppercase font-normal text-white">
-                        New Mode Design:
-                        <br /> Tile Puzzle
-                      </p>
-                    </div>
-                    <Image
-                      src={firstSlide}
-                      className="max-h-[146px] min-h-[146px] object-cover w-full"
-                      width={500}
-                      height={300}
-                    />
-                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
-                      <p className="p-4 text-lg uppercase font-normal text-white">
-                        New Mode Design:
-                        <br /> Tile Puzzle
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className={`relative  hover:cursor-pointer ${
-                      imgaeStatus === 2 ? "border-2 border-[#5EF388]" : ""
-                    }`}
-                    onClick={handleSelectSecondImage}
-                  >
-                    <div
-                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                        imgaeStatus === 2 ? "" : "hidden"
-                      }`}
-                    >
-                      <TOPRigthSVG />
-                    </div>
-                    <Image
-                      src={secondSlide}
-                      className="max-h-[146px] min-h-[146px] object-cover w-full"
-                      width={500}
-                      height={300}
-                    />
-                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
-                      <p className="p-4 text-lg uppercase font-normal text-white">
-                        GAME UPDATE:
-                        <br /> GETTING READY
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className={`relative  hover:cursor-pointer ${
-                      imgaeStatus === 3 ? "border-2 border-[#5EF388]" : ""
-                    }`}
-                    onClick={handleSelectThirdImage}
-                  >
-                    <div
-                      className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                        imgaeStatus === 3 ? "" : "hidden"
-                      }`}
-                    >
-                      <TOPRigthSVG />
-                    </div>
-                    <Image
-                      src={thirdSlide}
-                      className="max-h-[146px] min-h-[146px] object-cover w-full"
-                      width={500}
-                      height={300}
-                    />
-                    <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
-                      <p className="p-4 text-lg uppercase font-normal text-white">
-                        GAME UPDATE: <br /> GETTING READY
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </>
