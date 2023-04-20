@@ -62,17 +62,29 @@ export default function SignInPage(props: {
 
   const handleMonthInputChange = (e) => {
     let _month = e.target.value;
-    setMonth(_month);
+    if (_month.length > 2) {
+      return;
+    } else {
+      setMonth(_month);
+    }
   };
 
   const handleDayInputChange = (e) => {
     let _day = e.target.value;
-    setDay(_day);
+    if (_day.length > 2) {
+      return;
+    } else {
+      setDay(_day);
+    }
   };
 
   const handleYearInputChange = (e) => {
     let _year = e.target.value;
-    setYear(_year);
+    if (_year.length > 4) {
+      return;
+    } else {
+      setYear(_year);
+    }
   };
 
   const handleTagInputChange = (e) => {
@@ -360,6 +372,7 @@ export default function SignInPage(props: {
                           placeholder="MM"
                           title="MONTH"
                           onChange={handleMonthInputChange}
+
                         />
                         <DateInput
                           className="border-x-2"

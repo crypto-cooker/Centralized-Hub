@@ -13,7 +13,7 @@ import Footer from "components/Footer";
 import { Bounce, Flip, Fade } from "react-reveal";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { ReactNode } from "react";
 import { firstSlide, secondSlide, thirdSlide, Slides } from "config";
 import { getEvents } from "actions/getEvents";
@@ -35,9 +35,12 @@ export default function HomePage(props: {
   const [currentGameType, setCurrentGameType] = useState<string>();
   const [currentTitle, setCurrentTitle] = useState<string>();
   const [imgaeStatus, setImageStatus] = useState<number>(0);
+  const nodeRef = useRef(null);
   const fetchData = async () => {
     const getData = await getEvents();
-    setEvent(getData);
+    const getEvent = getData.slice(0, 3);
+    console.log(getEvent);
+    setEvent(getEvent);
     return getData;
   };
   useEffect(() => {
@@ -59,6 +62,7 @@ export default function HomePage(props: {
     if (imgIndex > 3) {
       imgIndex = 1;
     }
+    console.log(imgIndex);
     setImage(imgIndex);
   }, 5000);
 
@@ -67,10 +71,6 @@ export default function HomePage(props: {
     const data = async () => {
       try {
         const getData = await getEvents();
-        console.log(
-          image - 1,
-          getData[image - 1].eventDetails?.eventAnnouncementImage
-        );
         setCurrentImage(
           getData[image - 1].eventDetails?.eventAnnouncementImage
         );
@@ -92,10 +92,15 @@ export default function HomePage(props: {
         <div className="container w-full mx-auto max-sm:px-10 ">
           <div className="main-content  mx-auto max-w-full w-[1020px] mt-14 grid grid-cols-4 gap-4 max-sm:grid-cols-1">
             <div className="col-span-3 relative max-sm:hidden duration-300 transition-all">
-              <div className="absolute right-0 top-0 z-10">
-                <TOPRigthSVG />
-              </div>
-
+              <CSSTransition
+                key={currentImage}
+                timeout={10000}
+                classNames="fade"
+              >
+                <div className="absolute right-0 top-0 z-10 animate__animated animate__slideInLeft">
+                  <TOPRigthSVG />
+                </div>
+              </CSSTransition>
               <CSSTransition
                 key={currentImage}
                 timeout={5000}
@@ -125,7 +130,7 @@ export default function HomePage(props: {
               </div>
             </div>
             <div className="flex flex-col gap-y-[11px] ">
-              {event.map((item, index = 3) => (
+              {event.map((item, index) => (
                 <div
                   key={index}
                   className={`relative  hover:cursor-pointer ${
