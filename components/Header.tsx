@@ -7,7 +7,11 @@ interface IHeaderProps {
 
 const Header = ({ path }: IHeaderProps): JSX.Element => {
   return (
-    <div className="container mx-auto">
+    <div
+      className={`container mx-auto  ${
+        path === "/leaderboard" ? "hidden" : ""
+      }`}
+    >
       <div className="w-full flex text-white justify-between h-[100px] items-center">
         <Logo path={path} />
         {path.indexOf("/sign") === -1 &&
