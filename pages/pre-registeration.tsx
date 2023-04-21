@@ -1,8 +1,13 @@
 import Image from "next/image";
 import { firstSlide, secondSlide, thirdSlide } from "config";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function PreRegisteration() {
+  const navigator = useRouter();
+
+  const handleToSignUp = () => {
+    navigator.push("/signup");
+  };
   return (
     <>
       <main>
@@ -24,91 +29,6 @@ export default function PreRegisteration() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col gap-y-[11px] ">
-              {/* <div
-                className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 0 ? "border-2 border-[#5EF388]" : ""
-                }`}
-                onClick={handleSelectFistImage}
-              >
-                <div
-                  className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 0 ? "hidden" : ""
-                  }`}
-                >
-                  <TOPRigthSVG />
-                </div>
-                <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
-                  <p className="p-4 text-lg uppercase font-normal text-white">
-                    New Mode Design:
-                    <br /> Tile Puzzle
-                  </p>
-                </div>
-                <Image
-                  src={firstSlide}
-                  className="max-h-[146px] min-h-[146px] object-cover w-full"
-                  width={500}
-                  height={300}
-                />
-                <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
-                  <p className="p-4 text-lg uppercase font-normal text-white">
-                    New Mode Design:
-                    <br /> Tile Puzzle
-                  </p>
-                </div>
-              </div>
-              <div
-                className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 1 ? "border-2 border-[#5EF388]" : ""
-                }`}
-                onClick={handleSelectSecondImage}
-              >
-                <div
-                  className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 1 ? "hidden" : ""
-                  }`}
-                >
-                  <TOPRigthSVG />
-                </div>
-                <Image
-                  src={secondSlide}
-                  className="max-h-[146px] min-h-[146px] object-cover w-full"
-                  width={500}
-                  height={300}
-                />
-                <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
-                  <p className="p-4 text-lg uppercase font-normal text-white">
-                    GAME UPDATE:
-                    <br /> GETTING READY
-                  </p>
-                </div>
-              </div>
-              <div
-                className={`relative  hover:cursor-pointer ${
-                  imgaeStatus === 2 ? "border-2 border-[#5EF388]" : ""
-                }`}
-                onClick={handleSelectThirdImage}
-              >
-                <div
-                  className={`absolute left-0 top-0 z-10 -rotate-90  ${
-                    imgaeStatus !== 2 ? "hidden" : ""
-                  }`}
-                >
-                  <TOPRigthSVG />
-                </div>
-                <Image
-                  src={thirdSlide}
-                  className="max-h-[146px] min-h-[146px] object-cover w-full"
-                  width={500}
-                  height={300}
-                />
-                <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60 ">
-                  <p className="p-4 text-lg uppercase font-normal text-white">
-                    GAME UPDATE: <br /> GETTING READY
-                  </p>
-                </div>
-              </div> */}
-            </div>
           </div>
           <div className="main-content text-3xl mx-auto mb-10 max-sm:max-w-full lg:w-[1020px]  h-auto sm:mt-14 font-semibold space-y-4">
             <div className=" text-4xl tracking-widest text-white">
@@ -116,7 +36,10 @@ export default function PreRegisteration() {
               rewards
             </div>
             <div className="w-full flex flex-col justify-items-center space-y-16">
-              <button className="bg-[#5EF388] mx-auto text-2xl mt-4 max-sm:w-full px-10 py-2">
+              <button
+                className="bg-[#5EF388] mx-auto text-2xl mt-4 max-sm:w-full px-10 py-2"
+                onClick={handleToSignUp}
+              >
                 Signup Now for Early Access
               </button>
 

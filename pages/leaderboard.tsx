@@ -7,13 +7,13 @@ import Rank from "components/leaderboard/Rank";
 
 export default function LeaderboardPage() {
   return (
-    <>
+    <div className="relative bg-cover bg-no-repeat h-auto">
       <EventName eventName={"Event Name"} />
       <EventDescription eventDescription={""} />
       <EarnPoints points={12} />
       <Progress currentPoints={500} milestoneEarned={4} />
       <EventLeaderboard />
       <Rank />
-    </>
+    </div>
   );
 }
