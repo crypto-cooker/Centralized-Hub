@@ -15,7 +15,7 @@ const EventLeaderboard = ({
       <div className="w-full flex place-content-center mb-10">
         <p className="text-8xl text-white uppercase">EVENT LEADERBOARD</p>
       </div>
-      <div className="pb-16 bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+      <div className="pb-16 bg-black/50">
         <table className="w-full text-white text-2xl border-b-2">
           <thead className="uppercase border-b-2 mb-2">
             <tr>

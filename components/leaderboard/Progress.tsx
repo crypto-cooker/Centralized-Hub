@@ -12,7 +12,7 @@ const Progress = ({ currentPoints, milestoneEarned }: ProgressProps) => {
       <div className="w-full flex place-content-center">
         <p className="text-8xl text-white uppercase">Your Progress</p>
       </div>
-      <div className="pb-16 bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+      <div className="pb-16 bg-black/50">
         <div className="container mx-auto">
           <p className="text-white text-6xl font-semibold">Curtis</p>
         </div>

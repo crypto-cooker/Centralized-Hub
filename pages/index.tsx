@@ -94,24 +94,28 @@ export default function HomePage(props: {
             <div className="col-span-3 relative max-sm:hidden duration-300 transition-all">
               <CSSTransition
                 key={currentImage}
-                timeout={10000}
-                classNames="fade"
-              >
-                <div className="absolute right-0 top-0 z-10 animate__animated animate__slideInLeft">
-                  <TOPRigthSVG />
-                </div>
-              </CSSTransition>
-              <CSSTransition
-                key={currentImage}
                 timeout={5000}
                 classNames="fade"
               >
-                <Image
-                  src={currentImage}
-                  className={`w-full h-full object-cover animate__animated animate__slideInLeft`}
-                  width={1000}
-                  height={620}
-                />
+                <div className="relative w-full h-full">
+                  <div className="absolute right-0 top-0 z-10 animate__animated animate__slideInLeft">
+                    <TOPRigthSVG />
+                  </div>
+                  <Image
+                    src={currentImage}
+                    className={`w-full h-full object-cover animate__animated animate__slideInLeft relative`}
+                    width={1000}
+                    height={620}
+                  />
+                  <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
+                    <p className="p-4 text-4xl uppercase font-normal text-white">
+                      {currentGameType}
+                    </p>
+                    <p className="pl-4 pb-10 text-2xl text-white opacity-60">
+                      {currentTitle}
+                    </p>
+                  </div>
+                </div>
               </CSSTransition>
 
               {/* <ImageGallery
@@ -119,15 +123,6 @@ export default function HomePage(props: {
                 autoPlay={true}
                 showPauseButton={false}
               /> */}
-
-              <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
-                <p className="p-4 text-4xl uppercase font-normal text-white">
-                  {currentGameType}
-                </p>
-                <p className="pl-4 pb-10 text-2xl text-white opacity-60">
-                  {currentTitle}
-                </p>
-              </div>
             </div>
             <div className="flex flex-col gap-y-[11px] ">
               {event.map((item, index) => (
