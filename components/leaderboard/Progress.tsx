@@ -17,7 +17,7 @@ const Progress = ({ currentPoints, milestoneEarned }: ProgressProps) => {
         <div className="container mx-auto">
           <p className="text-white text-6xl font-semibold">Curtis</p>
         </div>
-        <div className="container mx-auto grid grid-cols-6 gap-4">
+        <div className="container mx-auto grid grid-cols-6 gap-4 max-lg:grid-cols-1 ">
           <div className="flex-col space-y-6 col-span-4">
             <div className="relative w-full pt-10">
               <div className="absolute top-1 flex w-full">
@@ -128,7 +128,7 @@ const Progress = ({ currentPoints, milestoneEarned }: ProgressProps) => {
               </div>
             </div>
           </div>
-          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-2 items-center">
+          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-2 items-center max-lg:mt-10">
             <div className="flex space-x-2 ">
               <Image
                 src="/img/leaderboard/capsule.png"
@@ -139,7 +139,7 @@ const Progress = ({ currentPoints, milestoneEarned }: ProgressProps) => {
             </div>
             <div className="text-2xl">Milestones Earned </div>
           </div>
-          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-4 items-center">
+          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-4 items-center max-lg:mt-10">
             <p className="text-5xl">{currentPoints}</p>
             <div className="text-2xl">Current Points </div>
           </div>

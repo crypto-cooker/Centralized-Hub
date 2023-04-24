@@ -36,6 +36,18 @@ export default function WelcomePage(props: {
   const [currentTitle, setCurrentTitle] = useState<string>();
   const [imgaeStatus, setImageStatus] = useState<number>(0);
 
+  const fetchData = async () => {
+    const getData = await getEvents();
+    const getEvent = getData.slice(0, 3);
+    console.log(getData);
+    setEvent(getEvent);
+    return getData;
+  };
+  useEffect(() => {
+    fetchData();
+    console.log("Data1>>>>>", event);
+  }, []);
+
   const handleSelectImage = (item: EventType, index) => {
     setCurrentImage(item.eventDetails?.eventAnnouncementImage);
     setCurrentGameType(item.eventDetails?.gameType);
@@ -73,10 +85,6 @@ export default function WelcomePage(props: {
     const data = async () => {
       try {
         const getData = await getEvents();
-        console.log(
-          image - 1,
-          getData[image - 1].eventDetails?.eventAnnouncementImage
-        );
         setCurrentImage(
           getData[image - 1].eventDetails?.eventAnnouncementImage
         );

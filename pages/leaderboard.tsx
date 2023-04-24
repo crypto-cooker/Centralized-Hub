@@ -8,7 +8,7 @@ import Rank from "components/leaderboard/Rank";
 export default function LeaderboardPage() {
   return (
     <div className="relative bg-cover bg-no-repeat h-auto">
-      <EventName eventName={"Event Name"} />
+      <EventName eventName={"Event Name"} time={""} />
       <EventDescription
         eventDescription={
           "Test test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test testTest test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test "
