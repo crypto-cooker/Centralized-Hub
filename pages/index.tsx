@@ -39,7 +39,7 @@ export default function HomePage(props: {
   const fetchData = async () => {
     const getData = await getEvents();
     const getEvent = getData.slice(0, 3);
-    console.log(getEvent);
+    console.log(getData);
     setEvent(getEvent);
     return getData;
   };

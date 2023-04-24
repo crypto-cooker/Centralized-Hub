@@ -1,5 +1,6 @@
 import { PercentFirstStep } from "components/SVGList";
 import Image from "next/image";
+import Capsule from "./Capsule";
 
 interface ProgressProps {
   currentPoints: number;
@@ -82,68 +83,52 @@ const Progress = ({ currentPoints, milestoneEarned }: ProgressProps) => {
             </div>
             <div className="w-full relative">
               <div className="absolute top-1 flex w-full">
-                <div className="  flex items-center">
-                  <Image
-                    src="/img/leaderboard/capsule.png"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <p className="text-3xl text-white">1</p>
+                <Capsule
+                  currentPoints={currentPoints}
+                  points={70}
+                  itemAmount={1}
+                />
               </div>
+
               <div className="absolute top-1 flex w-full">
                 <div className="w-full flex justify-end">
-                  <div className=" flex items-center">
-                    <Image
-                      className="rounded-full bg-[#FFE600]"
-                      src="/img/leaderboard/capsule.png"
-                      width={40}
-                      height={40}
-                    />
-                    <p className="text-3xl text-white">5</p>
-                  </div>
+                  <Capsule
+                    currentPoints={currentPoints}
+                    points={1000}
+                    itemAmount={5}
+                  />
                 </div>
               </div>
               <div className="absolute top-1 flex w-full">
                 <div className="w-full flex justify-center">
-                  <div className="  right-0 flex items-center">
-                    <Image
-                      className="rounded-full bg-[#FFE600]"
-                      src="/img/leaderboard/capsule.png"
-                      width={40}
-                      height={40}
-                    />
-                    <p className="text-3xl text-white">4</p>
-                  </div>
+                  <Capsule
+                    currentPoints={currentPoints}
+                    points={500}
+                    itemAmount={4}
+                  />
                 </div>
               </div>
               <div className="absolute top-1 left-0 flex w-1/2">
                 <div className="w-full flex justify-center">
-                  <div className="  right-0 flex items-center">
-                    <Image
-                      src="/img/leaderboard/capsule.png"
-                      width={40}
-                      height={40}
-                    />
-                    <p className="text-3xl text-white">3</p>
-                  </div>
+                  <Capsule
+                    currentPoints={currentPoints}
+                    points={250}
+                    itemAmount={3}
+                  />
                 </div>
               </div>
               <div className="absolute top-1 left-0 flex w-1/4">
                 <div className="w-full flex justify-center">
-                  <div className=" right-0 flex items-center">
-                    <Image
-                      src="/img/leaderboard/capsule.png"
-                      width={40}
-                      height={40}
-                    />
-                    <p className="text-3xl text-white">2</p>
-                  </div>
+                  <Capsule
+                    currentPoints={currentPoints}
+                    points={125}
+                    itemAmount={2}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-4 items-center">
+          <div className="flex col-span-1 border-2 border-white bg-[#E6E6E6] flex-col space-y-2 items-center">
             <div className="flex space-x-2 ">
               <Image
                 src="/img/leaderboard/capsule.png"
