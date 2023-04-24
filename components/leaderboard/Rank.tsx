@@ -7,11 +7,11 @@ interface RankProps {
 }
 const Rank = ({ rank, score, reward }: RankProps) => {
   return (
-    <div className="w-full flex-col  bg-black/50">
-      <div className="container mx-auto ">
-        <p className="text-2xl text-white uppercase">My Rank</p>
+    <div className="w-full flex-col  bg-black/50 pb-16">
+      <div className="container mx-auto pb-6">
+        <p className="text-2xl text-white uppercase font-semibold">My Rank</p>
       </div>
-      <div className=" bg-gradient-to-r from-cyan-500  py-4 ">
+      <div className=" bg-gradient-to-r from-cyan-500  py-4">
         <div className="container mx-auto text-6xl font-semibold text-white flex justify-between">
           <div className="flex space-x-4">
             <Image src="/img/leaderboard/star.png" width={60} height={60} />

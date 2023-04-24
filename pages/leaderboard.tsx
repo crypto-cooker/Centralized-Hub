@@ -9,7 +9,11 @@ export default function LeaderboardPage() {
   return (
     <div className="relative bg-cover bg-no-repeat h-auto">
       <EventName eventName={"Event Name"} />
-      <EventDescription eventDescription={""} />
+      <EventDescription
+        eventDescription={
+          "Test test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test testTest test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test "
+        }
+      />
       <EarnPoints points={12} />
       <Progress currentPoints={500} milestoneEarned={4} />
       <EventLeaderboard />
