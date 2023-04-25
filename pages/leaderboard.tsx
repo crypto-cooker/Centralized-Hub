@@ -13,6 +13,7 @@ export default function LeaderboardPage() {
         eventDescription={
           "Test test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test testTest test test test Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test test  Test test test "
         }
+        title={"Event Info Description"}
       />
       <EarnPoints points={12} />
       <Progress currentPoints={500} milestoneEarned={4} />
