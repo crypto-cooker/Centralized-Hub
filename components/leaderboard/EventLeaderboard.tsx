@@ -1,20 +1,26 @@
 import Image from "next/image";
 interface EventLeaderboardProps {
+  className?: string;
   rank?: number;
   name?: string;
   score?: string;
   reward?: string;
+  title?: string;
 }
 const EventLeaderboard = ({
+  className,
   rank,
   name,
   score,
-  reward
+  reward,
+  title
 }: EventLeaderboardProps) => {
   return (
     <div className="w-full flex-col ">
       <div className="w-full flex place-content-center mb-10">
-        <p className="text-8xl text-white uppercase">EVENT LEADERBOARD</p>
+        <p className={`text-8xl text-white ${className ? "" : "uppercase"}`}>
+          {title}
+        </p>
       </div>
       <div className="pb-6 bg-black/50">
         <table className="w-full text-white text-2xl  border-b-2">

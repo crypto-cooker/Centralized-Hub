@@ -11,6 +11,8 @@ const Footer = ({ path }: IFooterProps): JSX.Element => {
       className={`container left-1/2 bottom-0 -translate-x-1/2 ${
         path === "/leaderboard"
           ? "relative"
+          : path === "/pre-event"
+          ? "relative"
           : path === "/"
           ? "relative"
           : path === "/welcome"
@@ -22,7 +24,11 @@ const Footer = ({ path }: IFooterProps): JSX.Element => {
     >
       <div
         className={`w-full h-[100px] flex flex-col justify-center space-y-2 ${
-          path === "/leaderboard" ? "hidden" : ""
+          path === "/leaderboard"
+            ? "hidden"
+            : path === "/pre-event"
+            ? "hidden"
+            : ""
         }`}
       >
         <div

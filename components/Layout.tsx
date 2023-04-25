@@ -26,6 +26,8 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
       className={`relative bg-[url('/img/signin_bg.jpg')] bg-cover bg-no-repeat ${
         currentPath === "/leaderboard"
           ? "h-auto"
+          : currentPath === "/pre-event"
+          ? "h-auto"
           : currentPath === "/"
           ? "h-auto"
           : currentPath === "/welcome"
