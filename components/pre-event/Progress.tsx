@@ -5,7 +5,7 @@ const Progress = ({ currentPoints }: PreEventProgressProps) => {
   return (
     <>
       <div className="flex">
-        <div></div>
+        <div className="flex-col space-y-10"></div>
         <div className="w-20 h-96 bg-[#5EF388]">
           <div
             className="h-auto bg-[#303438]

@@ -18,6 +18,7 @@ import type { ReactNode } from "react";
 import { firstSlide, secondSlide, thirdSlide, Slides } from "config";
 import { getEvents } from "actions/getEvents";
 import { EventType } from "utils/utils";
+import { EventAvailable } from "@mui/icons-material";
 
 function getImageSrc(image): string {
   return image.src.toString();
@@ -35,14 +36,21 @@ export default function HomePage(props: {
   const [currentGameType, setCurrentGameType] = useState<string>();
   const [currentTitle, setCurrentTitle] = useState<string>();
   const [imgaeStatus, setImageStatus] = useState<number>(0);
-  const nodeRef = useRef(null);
   const fetchData = async () => {
-    const getData = await getEvents();
-    const getEvent = getData.slice(0, 3);
-    console.log(getData);
-    setEvent(getEvent);
-    return getData;
+    // const getData = await getEvents();
+    // const getEvent = getData.slice(0, 3);
+    // console.log(getData);
+    // console.log(event);
+    try {
+      const getData = await getEvents();
+      const getEvent = getData.slice(0, 3);
+      setEvent(getEvent); // Update the state with the fetched events
+      console.log(getEvent);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   useEffect(() => {
     fetchData();
     console.log("Data1>>>>>", event);
@@ -68,23 +76,27 @@ export default function HomePage(props: {
 
   useEffect(() => {
     // const data = fetchData;
-    const data = async () => {
-      try {
-        const getData = await getEvents();
-        setCurrentImage(
-          getData[image - 1].eventDetails?.eventAnnouncementImage
-        );
-        setCurrentGameType(getData[image - 1].eventDetails?.gameType);
-        setCurrentTitle(
-          getData[image - 1].eventDetails?.eventAnnouncementTitle
-        );
-      } catch (e) {
-        console.log("error");
-      }
-    };
-    data();
+    // const data = async () => {
+    //   try {
+    //     const getData = await getEvents();
+    //     console.log("shit");
+    //     setCurrentImage(
+    //       getData[image - 1].eventDetails?.eventAnnouncementImage
+    //     );
+    //     setCurrentGameType(getData[image - 1].eventDetails?.gameType);
+    //     setCurrentTitle(
+    //       getData[image - 1].eventDetails?.eventAnnouncementTitle
+    //     );
+    //   } catch (e) {
+    //     console.log("error");
+    //   }
+    // };
+    // data();
+    setCurrentImage(event[image - 1]?.eventDetails?.eventAnnouncementImage);
+    setCurrentGameType(event[image - 1]?.eventDetails?.gameType);
+    setCurrentTitle(event[image - 1]?.eventDetails?.eventAnnouncementTitle);
     setImageStatus(image - 1);
-  }, [image]);
+  }, [image, event]);
 
   return (
     <>
@@ -102,7 +114,7 @@ export default function HomePage(props: {
                     <TOPRigthSVG />
                   </div>
                   <Image
-                    src={currentImage}
+                    src={currentImage || firstSlide}
                     className={`w-full h-full object-cover animate__animated animate__slideInLeft relative`}
                     width={1000}
                     height={620}
@@ -237,18 +249,3 @@ export default function HomePage(props: {
     </>
   );
 }
-
-const images = [
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/"
-  },
-  {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/"
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/"
-  }
-];
