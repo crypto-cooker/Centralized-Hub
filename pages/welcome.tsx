@@ -37,12 +37,15 @@ export default function WelcomePage(props: {
   const [imgaeStatus, setImageStatus] = useState<number>(0);
 
   const fetchData = async () => {
-    const getData = await getEvents();
-    const getEvent = getData.slice(0, 3);
-    console.log(getData);
-    setEvent(getEvent);
-    return getData;
+    try {
+      const getData = await getEvents();
+      const getEvent = getData.slice(0, 3);
+      setEvent(getEvent); // Update the state with the fetched events
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   useEffect(() => {
     fetchData();
     console.log("Data1>>>>>", event);
@@ -81,24 +84,11 @@ export default function WelcomePage(props: {
   }, 5000);
 
   useEffect(() => {
-    // const data = fetchData;
-    const data = async () => {
-      try {
-        const getData = await getEvents();
-        setCurrentImage(
-          getData[image - 1].eventDetails?.eventAnnouncementImage
-        );
-        setCurrentGameType(getData[image - 1].eventDetails?.gameType);
-        setCurrentTitle(
-          getData[image - 1].eventDetails?.eventAnnouncementTitle
-        );
-      } catch (e) {
-        console.log("error");
-      }
-    };
-    data();
+    setCurrentImage(event[image - 1]?.eventDetails?.eventAnnouncementImage);
+    setCurrentGameType(event[image - 1]?.eventDetails?.gameType);
+    setCurrentTitle(event[image - 1]?.eventDetails?.eventAnnouncementTitle);
     setImageStatus(image - 1);
-  }, [image]);
+  }, [image, event]);
 
   return (
     <>
@@ -140,19 +130,12 @@ export default function WelcomePage(props: {
                     classNames="fade"
                   >
                     <Image
-                      src={currentImage}
+                      src={currentImage || firstSlide}
                       className="w-full h-full object-cover animate__animated animate__slideInLeft"
                       width={1000}
                       height={620}
                     />
                   </CSSTransition>
-
-                  {/* <ImageGallery
-                items={images}
-                autoPlay={true}
-                showPauseButton={false}
-              /> */}
-
                   <div className="absolute bottom-0 w-full bg-black/30 bg-gradient-to-b from-black/10 to-black/60">
                     <p className="p-4 text-4xl uppercase font-normal text-white">
                       {currentGameType}

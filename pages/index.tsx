@@ -37,15 +37,10 @@ export default function HomePage(props: {
   const [currentTitle, setCurrentTitle] = useState<string>();
   const [imgaeStatus, setImageStatus] = useState<number>(0);
   const fetchData = async () => {
-    // const getData = await getEvents();
-    // const getEvent = getData.slice(0, 3);
-    // console.log(getData);
-    // console.log(event);
     try {
       const getData = await getEvents();
       const getEvent = getData.slice(0, 3);
       setEvent(getEvent); // Update the state with the fetched events
-      console.log(getEvent);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +48,6 @@ export default function HomePage(props: {
 
   useEffect(() => {
     fetchData();
-    console.log("Data1>>>>>", event);
   }, []);
 
   const handleSelectImage = (item: EventType, index) => {
@@ -75,23 +69,6 @@ export default function HomePage(props: {
   }, 5000);
 
   useEffect(() => {
-    // const data = fetchData;
-    // const data = async () => {
-    //   try {
-    //     const getData = await getEvents();
-    //     console.log("shit");
-    //     setCurrentImage(
-    //       getData[image - 1].eventDetails?.eventAnnouncementImage
-    //     );
-    //     setCurrentGameType(getData[image - 1].eventDetails?.gameType);
-    //     setCurrentTitle(
-    //       getData[image - 1].eventDetails?.eventAnnouncementTitle
-    //     );
-    //   } catch (e) {
-    //     console.log("error");
-    //   }
-    // };
-    // data();
     setCurrentImage(event[image - 1]?.eventDetails?.eventAnnouncementImage);
     setCurrentGameType(event[image - 1]?.eventDetails?.gameType);
     setCurrentTitle(event[image - 1]?.eventDetails?.eventAnnouncementTitle);
@@ -129,12 +106,6 @@ export default function HomePage(props: {
                   </div>
                 </div>
               </CSSTransition>
-
-              {/* <ImageGallery
-                items={images}
-                autoPlay={true}
-                showPauseButton={false}
-              /> */}
             </div>
             <div className="flex flex-col gap-y-[11px] ">
               {event.map((item, index) => (
