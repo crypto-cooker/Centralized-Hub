@@ -8,6 +8,7 @@ interface MainContext {
   gamerTag: string;
   status: string;
   onetimeCode: string;
+  email: string;
   login: (identifier: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -18,6 +19,7 @@ const MainContext = createContext<MainContext>({
   gamerTag: "",
   status: "",
   onetimeCode: "",
+  email: "",
   login: async (_identifier: string, _password: string) => {},
   logout: () => {}
 });
@@ -29,6 +31,7 @@ export const MainContextProvider = ({ children }) => {
   const [gamerTag, setGamerTag] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [onetimeCode, setOnetimeCode] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
     const localAuthToken = localStorage.getItem("authToken");
@@ -39,6 +42,8 @@ export const MainContextProvider = ({ children }) => {
     if (localStatus) setStatus(localStatus);
     const localOnetimeCode = localStorage.getItem("onetimeCode");
     if (localOnetimeCode) setOnetimeCode(localOnetimeCode);
+    const localEmail = localStorage.getItem("email");
+    if (localEmail) setEmail(localEmail);
   }, []);
 
   const value = {
@@ -46,6 +51,7 @@ export const MainContextProvider = ({ children }) => {
     gamerTag: gamerTag,
     status: status,
     onetimeCode: onetimeCode,
+    email: email,
     login: async (identifier: string, password: string) => {
       const loginRes = await dispatchLogin(identifier, password);
       console.log(loginRes);
@@ -58,6 +64,8 @@ export const MainContextProvider = ({ children }) => {
         localStorage.setItem("status", loginRes.status);
         setOnetimeCode(loginRes.onetimeCode);
         localStorage.setItem("onetimeCode", loginRes.onetimeCode);
+        setEmail(loginRes.email);
+        localStorage.setItem("email", loginRes.email);
       } else {
         const alertMsg = loginRes.data.response;
         errorAlertBottom(alertMsg);
@@ -68,9 +76,13 @@ export const MainContextProvider = ({ children }) => {
       setAuthToken("");
       setGamerTag("");
       setStatus("");
+      setOnetimeCode("");
+      setEmail("");
       localStorage.removeItem("authToken");
       localStorage.removeItem("gamerTag");
       localStorage.removeItem("status");
+      localStorage.removeItem("onetimeCode");
+      localStorage.removeItem("email");
     }
   };
 
