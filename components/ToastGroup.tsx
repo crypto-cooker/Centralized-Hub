@@ -26,14 +26,14 @@ export const errorAlertBottom = (text: string) => {
 }
 export const errorAlertCenter = (text: string) => {
     toast.error(text, {
-        position: "bottom-center",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark"
-    })
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark"
+    });
 }
 
 export const warningAlert = (text: string) => {

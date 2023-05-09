@@ -10,6 +10,7 @@ import { useMainContext } from "contexts";
 import Button from "components/Button";
 import Input from "components/Input";
 import Warning from "../public/img/warning.png";
+import { errorAlertCenter } from "components/ToastGroup";
 
 export default function SignInPage(props: {
   startLoading: Function;
@@ -24,7 +25,7 @@ export default function SignInPage(props: {
   const [passLevelMsg, setPassLevelMsg] = useState<string>("");
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
 
-  const { authToken, login, onetimeCode, email } = useMainContext();
+  const { authToken, login, onetimeCode, email, status } = useMainContext();
   const navigator = useRouter();
 
   const handleNameInputChange = (e) => {
@@ -64,10 +65,12 @@ export default function SignInPage(props: {
   }, [name, pass, authToken]);
 
   useEffect(() => {
-    if (authToken) {
+    if (authToken && status === "active") {
       navigator.push(
         "https://dda-preregistration.vercel.app/" + onetimeCode + "/" + email
       );
+    } else {
+      errorAlertCenter("Please verify your account");
     }
   }, [authToken]);
 
