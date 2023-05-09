@@ -7,6 +7,7 @@ interface MainContext {
   authToken: string;
   gamerTag: string;
   status: string;
+  onetimeCode: string;
   login: (identifier: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -16,6 +17,7 @@ const MainContext = createContext<MainContext>({
   authToken: "",
   gamerTag: "",
   status: "",
+  onetimeCode: "",
   login: async (_identifier: string, _password: string) => {},
   logout: () => {}
 });
@@ -26,6 +28,7 @@ export const MainContextProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState<string>("");
   const [gamerTag, setGamerTag] = useState<string>("");
   const [status, setStatus] = useState<string>("");
+  const [onetimeCode, setOnetimeCode] = useState<string>("");
 
   useEffect(() => {
     const localAuthToken = localStorage.getItem("authToken");
@@ -34,12 +37,15 @@ export const MainContextProvider = ({ children }) => {
     if (localGamerTag) setGamerTag(localGamerTag);
     const localStatus = localStorage.getItem("status");
     if (localStatus) setStatus(localStatus);
+    const localOnetimeCode = localStorage.getItem("onetimeCode");
+    if (localOnetimeCode) setOnetimeCode(localOnetimeCode);
   }, []);
 
   const value = {
     authToken: authToken,
     gamerTag: gamerTag,
     status: status,
+    onetimeCode: onetimeCode,
     login: async (identifier: string, password: string) => {
       const loginRes = await dispatchLogin(identifier, password);
       console.log(loginRes);
@@ -50,6 +56,8 @@ export const MainContextProvider = ({ children }) => {
         localStorage.setItem("gamerTag", loginRes.gamerTag);
         setStatus(loginRes.status);
         localStorage.setItem("status", loginRes.status);
+        setOnetimeCode(loginRes.onetimeCode);
+        localStorage.setItem("onetimeCode", loginRes.onetimeCode);
       } else {
         const alertMsg = loginRes.data.response;
         errorAlertBottom(alertMsg);

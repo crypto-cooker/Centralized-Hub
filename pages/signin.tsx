@@ -24,7 +24,7 @@ export default function SignInPage(props: {
   const [passLevelMsg, setPassLevelMsg] = useState<string>("");
   const [passLevelStatus, setPassLevelStatus] = useState<string>("success");
 
-  const { authToken, login } = useMainContext();
+  const { authToken, login, onetimeCode } = useMainContext();
   const navigator = useRouter();
 
   const handleNameInputChange = (e) => {
@@ -65,7 +65,9 @@ export default function SignInPage(props: {
 
   useEffect(() => {
     if (authToken) {
-      navigator.push("/welcome");
+      navigator.push(
+        "https://dda-preregistration.vercel.app/" + onetimeCode + "/" + name
+      );
     }
   }, [authToken]);
 

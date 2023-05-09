@@ -3,23 +3,11 @@ import Image from "next/image";
 import { CSSTransition } from "react-transition-group";
 import "animate.css/animate.min.css";
 import { TOPRigthSVG } from "components/SVGList";
-import ImageGallery from "react-image-gallery";
-
-// import "bootstrap/dist/css/bootstrap.min.css";
-
-import { TOPLeftSVG } from "components/SVGList";
-import Button from "components/Button";
-import Footer from "components/Footer";
-import { Bounce, Flip, Fade } from "react-reveal";
-
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { firstSlide, secondSlide, thirdSlide, Slides } from "config";
 import { getEvents } from "actions/getEvents";
 import { EventType } from "utils/utils";
-import { EventAvailable } from "@mui/icons-material";
-
 function getImageSrc(image): string {
   return image.src.toString();
 }
@@ -40,6 +28,7 @@ export default function HomePage(props: {
     try {
       const getData = await getEvents();
       const getEvent = getData.slice(0, 3);
+      console.log(getEvent);
       setEvent(getEvent); // Update the state with the fetched events
     } catch (error) {
       console.log(error);
