@@ -65,23 +65,23 @@ export default function SignInPage(props: {
   }, [name, pass, authToken]);
 
   useEffect(() => {
-    // if (authToken && status === "active") {
-    //   navigator.push(
-    //     "https://dda-preregistration.vercel.app/" + onetimeCode + "/" + email
-    //   );
-    // } else {
-    //   errorAlertCenter("Please verify your account");
-    // }
-    console.log(onetimeCode);
-    if (authToken && onetimeCode) {
+    if (authToken && status === "active") {
       navigator.push(
-        "https://dda-preregistration.vercel.app" +
-          "/" +
+        "https://dda-preregistration.vercel.app/challenges" +
+          "?" +
           onetimeCode +
-          "/" +
+          "&" +
           email
       );
+    } else {
+      errorAlertCenter("Please verify your account");
     }
+    // console.log(onetimeCode);
+    // if (authToken && onetimeCode) {
+    //   navigator.push(
+    //     "http://localhost:3000/challenges" + "?" + onetimeCode + "&" + email
+    //   );
+    // }
   }, [authToken, onetimeCode, email]);
 
   return (
