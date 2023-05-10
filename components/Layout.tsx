@@ -17,7 +17,7 @@ export default function Layout({ children }: ILayoutProps): JSX.Element {
 
   useEffect(() => {
     if (authToken) {
-      router.push("/welcome");
+      // router.push("/welcome");
     }
   }, [authToken]);
 
