@@ -65,6 +65,8 @@ export default function SignInPage(props: {
   }, [name, pass, authToken]);
 
   useEffect(() => {
+    console.log(status, authToken);
+
     if (authToken && status === "active") {
       navigator.push(
         "https://dda-preregistration.vercel.app/challenges" +
@@ -73,7 +75,7 @@ export default function SignInPage(props: {
           "&" +
           email
       );
-    } else {
+    } else if (authToken && status === "unverified") {
       errorAlertCenter("Please verify your account");
     }
     // console.log(onetimeCode);
