@@ -65,7 +65,7 @@ export default function SignInPage(props: {
   }, [name, pass, authToken]);
 
   useEffect(() => {
-    console.log(status, authToken);
+    console.log(status, authToken, email);
 
     if (authToken && status === "active") {
       navigator.push(
@@ -75,6 +75,7 @@ export default function SignInPage(props: {
           "&" +
           email
       );
+      console.log(status, authToken, email);
     } else if (authToken && status === "unverified") {
       errorAlertCenter("Please verify your account");
     }
@@ -84,7 +85,7 @@ export default function SignInPage(props: {
     //     "http://localhost:3000/challenges" + "?" + onetimeCode + "&" + email
     //   );
     // }
-  }, [status]);
+  }, [onetimeCode, status, email]);
 
   return (
     <>

@@ -54,7 +54,7 @@ export const MainContextProvider = ({ children }) => {
     email: email,
     login: async (identifier: string, password: string) => {
       const loginRes = await dispatchLogin(identifier, password);
-      console.log(loginRes);
+      console.log(email);
       if (loginRes?.token) {
         setAuthToken(loginRes.token);
         localStorage.setItem("authToken", loginRes.token);
