@@ -84,7 +84,7 @@ export default function SignInPage(props: {
     //     "http://localhost:3000/challenges" + "?" + onetimeCode + "&" + email
     //   );
     // }
-  }, [status]);
+  }, [onetimeCode, status]);
 
   return (
     <>
