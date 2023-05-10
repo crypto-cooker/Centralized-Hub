@@ -82,7 +82,7 @@ export default function SignInPage(props: {
     //     "http://localhost:3000/challenges" + "?" + onetimeCode + "&" + email
     //   );
     // }
-  }, [authToken, onetimeCode, email]);
+  }, [status]);
 
   return (
     <>
