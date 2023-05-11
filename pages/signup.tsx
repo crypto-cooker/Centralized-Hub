@@ -372,7 +372,6 @@ export default function SignInPage(props: {
                           placeholder="MM"
                           title="MONTH"
                           onChange={handleMonthInputChange}
-
                         />
                         <DateInput
                           className="border-x-2"
@@ -536,6 +535,7 @@ export default function SignInPage(props: {
                       ? "pl-2 text-xl uppercase tracking-widest w-[144px] bg-[#5EF388]  text-black mt-10"
                       : "pl-2 border-2 border-stone-300 text-stone-400 text-xl uppercase tracking-widest w-[144px] mt-10"
                   }`}
+                  isLoading={isProcessing}
                   onClick={handleNextBtnClicked}
                 />
               )}
