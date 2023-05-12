@@ -53,21 +53,21 @@ export default function SignInPage(props: {
 
     setIsProcessing(true);
     const validLogin = await login(name, pass);
-    console.log(authToken);
+    console.log("authtoken>>>>", authToken);
     if (!authToken) {
       setPassLevelStatus("error");
       setPassLevelMsg(
         "Your Gamertag or password may be incorrect. Check to make sure caps lock is off. If you can’t sign in, visit the CAN’T SIGN IN link for help."
       );
     }
-
-    setIsProcessing(false);
+    setPassLevelStatus("success");
   }, [name, pass, authToken]);
 
   useEffect(() => {
     console.log(status, authToken, email);
 
     if (authToken && status === "active") {
+      setIsProcessing(false);
       navigator.push(
         "https://dda-preregistration.vercel.app/challenges" +
           "?" +
